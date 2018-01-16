@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="action_settings">Settings</string>
+    <string name="textTask">Yeep</string>
+    <string name="textShortTask">Short header</string>
+    <string name="textFullTask">Full description of task:</string>
+    <string name="textToday">Tasks for Today</string>
+    <string name="textTomorrow">Tasks for Tomorrow</string>
+    <string name="textFuture">Tasks for Future</string>
+    <string name="checkStart">Create checked list</string>
+    <string name="hint">Type here</string>
+    <string name="putDate">Set date</string>
+</resources>

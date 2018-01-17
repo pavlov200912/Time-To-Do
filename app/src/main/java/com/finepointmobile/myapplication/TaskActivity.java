@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -22,7 +24,6 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
-import com.applandeo.materialcalendarview.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,7 +51,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_user);
+        setContentView(R.layout.create_task);
 
         buttonCheck = findViewById(R.id.checkButton);
         textShort = findViewById(R.id.editTextShort);
@@ -78,13 +79,27 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
             checkText.setText(cur_task.get(0).checkText);
             buttonCalendar.setText(cur_task.get(0).dateText);
         }
-        recyclerView = findViewById(R.id.checkList);
+        recyclerView = findViewById(R.id.recyclerView);
+
         adapter = new CheckAdapter(db.checkDao().getChecksById(cur_id));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(TaskActivity.this));
         recyclerView.setAdapter(adapter);
         /**
          * Button to main_activity
          */
+        SwipeToDeleteCallback swipeHandler = new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                db.checkDao().deleteCheck(adapter.checks.get(viewHolder.getAdapterPosition()));
+                adapter.removeItem(viewHolder.getAdapterPosition());
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHandler);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -122,10 +122,10 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
             }
         });
         Calendar min = Calendar.getInstance();
-        min.add(Calendar.MONTH, 0);
+        min.add(Calendar.MONTH, 5);
 
         Calendar max = Calendar.getInstance();
-        max.add(Calendar.MONTH, 12);
+        max.add(Calendar.MONTH, 5);
         buttonCalendar.setOnClickListener(v -> {
             DatePickerBuilder oneDayBuilder = new DatePickerBuilder(this,this)
                     .pickerType(CalendarView.ONE_DAY_PICKER)
@@ -136,8 +136,6 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                     .todayLabelColor(R.color.colorAccent)
                     .dialogButtonsColor(android.R.color.holo_green_dark)
                     .disabledDaysLabelsColor(android.R.color.holo_purple)
-                    .minimumDate(min)
-                    .maximumDate(max)
                     .disabledDays(getDisabledDays());
 
             DatePicker oneDayPicker = oneDayBuilder.build();

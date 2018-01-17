@@ -23,9 +23,9 @@ public class Check{
     int isComplete;
 
     @ColumnInfo(name = "task_id")
-    String taskId;
+    int taskId;
 
-    public Check(String checkText, int isComplete, String taskId) {
+    public Check(String checkText, int isComplete, int taskId) {
         this.checkText = checkText;
         this.isComplete = isComplete;
         this.taskId = taskId;
@@ -55,11 +55,11 @@ public class Check{
         this.isComplete = isComplete;
     }
 
-    public String getTaskId() {
+    public int getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(String taskId) {
+    public void setTaskId(int taskId) {
         this.taskId = taskId;
     }
 }

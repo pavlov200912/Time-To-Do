@@ -24,12 +24,12 @@ public class Task{
     String checkText;
 
     @ColumnInfo(name = "task_id")
-    String taskId;
+    int taskId;
 
     @ColumnInfo(name = "date_text")
     String dateText;
 
-    public Task(String shortText, String longText, String checkText, String dateText, String taskId) {
+    public Task(String shortText, String longText, String checkText, String dateText, int taskId) {
         this.shortText = shortText;
         this.longText = longText;
         this.checkText = checkText;
@@ -77,11 +77,11 @@ public class Task{
         this.checkText = checkText;
     }
 
-    public String getTaskId() {
+    public int getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(String taskId) {
+    public void setTaskId(int taskId) {
         this.taskId = taskId;
     }
 }

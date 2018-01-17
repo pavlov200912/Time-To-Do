@@ -13,8 +13,10 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.HashMap;
 
+public class MainActivity extends AppCompatActivity {
+    HashMap<Integer,Integer> reindex = new HashMap<>();
     private static final String TAG = "MainActivity";
 
     AppDatabase db;
@@ -40,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .build();
-
+        Log.d("myLog", "onCreate:");
+        for (Task task : db.taskDao().getAll()) {
+            Log.d("myLog","id:" + task.taskId + " text:" + task.shortText);
+        }
         adapter = new TaskAdapter(db.taskDao().getAll());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -60,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
             public void onRightClicked(int position) {
                 //TODO remove from db
                 adapter.tasks.remove(position);
+                db.taskDao().deleteTaskById(position + 1);
+                db.checkDao().deleteById(position + 1);
+                Log.d("LOL", String.valueOf(db.taskDao().getAll().size()));
+                db.taskDao().reindexTasks(position + 1);
+                db.checkDao().reindexChecks(position + 1);
+                Log.d("myLog","OnDeleted" + position);
+                for (Task task : db.taskDao().getAll()) {
+                    Log.d("myLog","id:" + task.taskId + " text:" + task.shortText);
+                }
                 adapter.notifyItemRemoved(position);
                 adapter.notifyItemRangeChanged(position, adapter.getItemCount());
             }
@@ -67,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLeftClicked(int position) {
                 Intent intent = new Intent(MainActivity.this,TaskActivity.class);
-                String card_id = String.valueOf(db.taskDao().getAll().get(position).getId());
+                String card_id = String.valueOf(position + 1);
                 intent.putExtra("id",card_id);
                 startActivity(intent);
             }

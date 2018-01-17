@@ -60,12 +60,16 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         buttonCalendar = findViewById(R.id.buttonCalendar);
 
         Intent intent = getIntent();
-        final String cur_id = intent.getStringExtra("id");
+        final int cur_id = Integer.parseInt(intent.getStringExtra("id"));
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .build();
-        Log.d("ID", cur_id + ' ');
+        Log.d("myLog", "onSecondCreate: " + cur_id);
+        for (Task task : db.taskDao().getAll()) {
+            Log.d("myLog","id:" + task.taskId + " text:" + task.shortText);
+        }
+        Log.d("ID", String.valueOf(cur_id) + ' ');
         final List<Task> cur_task = db.taskDao().getTaskById(cur_id);
         Log.d("ID", "Size = " + String.valueOf(cur_task.size()));
         if (cur_task.size() != 0) {

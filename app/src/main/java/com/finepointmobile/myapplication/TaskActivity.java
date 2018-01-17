@@ -134,7 +134,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                     .headerLabelColor(R.color.currentMonthDayColor)
                     .selectionColor(R.color.daysLabelColor)
                     .todayLabelColor(R.color.colorAccent)
-                    .dialogButtonsColor(android.R.color.holo_green_dark)
+                    .dialogButtonsColor(android.R.color.white)
                     .disabledDaysLabelsColor(android.R.color.holo_purple)
                     .minimumDate(min)
                     .maximumDate(max)

@@ -14,7 +14,7 @@ import java.util.List;
 
 class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
-    private List<Task> tasks;
+    public List<Task> tasks;
 
     public TaskAdapter(List<Task> tasks) {
         this.tasks = tasks;
@@ -29,7 +29,6 @@ class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(TaskAdapter.ViewHolder holder, int position) {
         holder.textShort.setText(tasks.get(position).shortText);
-        holder.textFull.setText(tasks.get(position).longText);
     }
 
     @Override
@@ -40,12 +39,10 @@ class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textShort;
-        public TextView textFull;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textShort = itemView.findViewById(R.id.text_short);
-            textFull = itemView.findViewById(R.id.text_full);
         }
     }
 }

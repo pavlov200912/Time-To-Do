@@ -2,12 +2,14 @@ package com.finepointmobile.myapplication;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
@@ -19,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
     RecyclerView recyclerView;
-
-    RecyclerView.Adapter adapter;
+    SwipeController swipeController = null;
+    TaskAdapter adapter;
 
     Task daniel;
 
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new TaskAdapter(db.taskDao().getAll());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnItemTouchListener(
+        /*recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -52,7 +54,34 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 })
-        );
+        );*/
+        swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                //TODO remove from db
+                adapter.tasks.remove(position);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+            }
+
+            @Override
+            public void onLeftClicked(int position) {
+                Intent intent = new Intent(MainActivity.this,TaskActivity.class);
+                String card_id = String.valueOf(db.taskDao().getAll().get(position).getId());
+                intent.putExtra("id",card_id);
+                startActivity(intent);
+            }
+        });
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
 
 
         fab.setOnClickListener(new View.OnClickListener() {

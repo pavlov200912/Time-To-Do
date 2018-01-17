@@ -26,11 +26,23 @@ public class Task{
     @ColumnInfo(name = "task_id")
     String taskId;
 
-    public Task(String shortText, String longText, String checkText, String taskId) {
+    @ColumnInfo(name = "date_text")
+    String dateText;
+
+    public Task(String shortText, String longText, String checkText, String dateText, String taskId) {
         this.shortText = shortText;
         this.longText = longText;
         this.checkText = checkText;
+        this.dateText = dateText;
         this.taskId = taskId;
+    }
+
+    public String getDateText() {
+        return dateText;
+    }
+
+    public void setDateText(String dateText) {
+        this.dateText = dateText;
     }
 
     public int getId() {

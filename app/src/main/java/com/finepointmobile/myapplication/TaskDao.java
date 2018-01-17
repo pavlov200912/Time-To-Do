@@ -16,9 +16,8 @@ public interface TaskDao {
     @Query("SELECT * FROM Task WHERE task_id = :id")
     List<Task> getTaskById(String id);
 
-    @Query("UPDATE Task SET short_text = :s_t, long_text = :l_t, check_text = :c_t WHERE task_id = :id")
-    void updateTask(String id, String s_t, String l_t, String c_t);
-
+    @Query("UPDATE Task SET short_text = :s_t, long_text = :l_t, check_text = :c_t , date_text = :d_t WHERE task_id = :id")
+    void updateTask(String id, String s_t, String l_t, String c_t, String d_t);
 
     @Insert
     void insertAll(Task... tasks);

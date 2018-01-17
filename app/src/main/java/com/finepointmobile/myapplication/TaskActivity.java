@@ -60,12 +60,16 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         buttonCalendar = findViewById(R.id.buttonCalendar);
 
         Intent intent = getIntent();
-        final String cur_id = intent.getStringExtra("id");
+        final int cur_id = Integer.parseInt(intent.getStringExtra("id"));
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .build();
-        Log.d("ID", cur_id + ' ');
+        Log.d("myLog", "onSecondCreate: " + cur_id);
+        for (Task task : db.taskDao().getAll()) {
+            Log.d("myLog","id:" + task.taskId + " text:" + task.shortText);
+        }
+        Log.d("ID", String.valueOf(cur_id) + ' ');
         final List<Task> cur_task = db.taskDao().getTaskById(cur_id);
         Log.d("ID", "Size = " + String.valueOf(cur_task.size()));
         if (cur_task.size() != 0) {
@@ -122,10 +126,10 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
             }
         });
         Calendar min = Calendar.getInstance();
-        min.add(Calendar.MONTH, 0);
+        min.add(Calendar.MONTH, 5);
 
         Calendar max = Calendar.getInstance();
-        max.add(Calendar.MONTH, 12);
+        max.add(Calendar.MONTH, 5);
         buttonCalendar.setOnClickListener(v -> {
             DatePickerBuilder oneDayBuilder = new DatePickerBuilder(this,this)
                     .pickerType(CalendarView.ONE_DAY_PICKER)
@@ -134,10 +138,8 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                     .headerLabelColor(R.color.currentMonthDayColor)
                     .selectionColor(R.color.daysLabelColor)
                     .todayLabelColor(R.color.colorAccent)
-                    .dialogButtonsColor(android.R.color.holo_green_dark)
+                    .dialogButtonsColor(android.R.color.white)
                     .disabledDaysLabelsColor(android.R.color.holo_purple)
-                    .minimumDate(min)
-                    .maximumDate(max)
                     .disabledDays(getDisabledDays());
 
             DatePicker oneDayPicker = oneDayBuilder.build();

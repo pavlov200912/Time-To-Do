@@ -1,4 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="editTextFullH">50dp</dimen>
+    <dimen name="cardview_task">75dp</dimen>
 </resources>

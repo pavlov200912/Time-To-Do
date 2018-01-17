@@ -13,20 +13,47 @@
     <!--<android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"> -->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/checkButton"
-            android:layout_width="44dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/buttonSave"
+            android:layout_width="48dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:tint="@android:color/white"
-            app:backgroundTint="@color/floatingCheck"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_anchor="@+id/appBarLayout2"
+            app:layout_anchorGravity="right|center"
+            app:layout_constraintBottom_toBottomOf="@+id/appBarLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextFull"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_checkmark_holo_light" />
 
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
+
+    </android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/textShort"
             android:layout_width="wrap_content"
@@ -37,6 +64,19 @@
             android:text="@string/textShortTask"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/buttonCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="12dp"
+            android:text="@string/putDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/editTextShort"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="35dp" />
 
         <EditText
             android:id="@+id/editTextShort"
@@ -74,67 +114,64 @@
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textFull" />
-    <EditText
-        android:id="@+id/checkText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:hint="@string/checkStart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFull" />
+    </android.support.constraint.ConstraintLayout>
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <FrameLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/checkText"
+            android:layout_width="318dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:hint="@string/checkStart"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.965"
-            tools:layout_editor_absoluteX="0dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkText"
-                tools:layout_editor_absoluteX="8dp" />
-        </FrameLayout>
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/buttonSave"
-            android:layout_width="44dp"
+            android:id="@+id/checkButton"
+            android:layout_width="259dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:paddingLeft="100dp"
             android:tint="@android:color/white"
             app:backgroundTint="@color/floatingCheck"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_input_add" />
+    </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.965"
+        tools:layout_editor_absoluteX="0dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkText"
+            tools:layout_editor_absoluteX="8dp" />
+    </FrameLayout>
 
 
-        <Button
-            android:id="@+id/buttonCalendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="12dp"
-            android:text="@string/putDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editTextShort"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="35dp" />
+
+
+
+
 
 
     <!--</android.support.constraint.ConstraintLayout> -->

@@ -33,7 +33,7 @@ class SwipeController extends Callback {
 
     private SwipeControllerActions buttonsActions = null;
 
-    private static final float buttonWidth = 100;
+    private static final float buttonWidth = 200;
 
     public SwipeController(SwipeControllerActions buttonsActions) {
         this.buttonsActions = buttonsActions;
@@ -90,7 +90,9 @@ class SwipeController extends Callback {
                 if (swipeBack) {
                     if (dX < -buttonWidth) buttonShowedState = ButtonsState.RIGHT_VISIBLE;
                     else if (dX > buttonWidth) buttonShowedState  = ButtonsState.LEFT_VISIBLE;
-
+                    else {
+                        buttonShowedState = ButtonsState.GONE;
+                    }
                     if (buttonShowedState != ButtonsState.GONE) {
                         setTouchDownListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                         setItemsClickable(recyclerView, false);
@@ -158,14 +160,14 @@ class SwipeController extends Callback {
         Paint p = new Paint();
 
         RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
-        p.setColor(Color.BLUE);
+        p.setColor(Color.WHITE);
         c.drawRoundRect(leftButton, corners, corners, p);
-        drawText("E", c, leftButton, p);
+        drawBlueText("Edit", c, leftButton, p);
 
         RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom());
-        p.setColor(Color.RED);
+        p.setColor(Color.WHITE);
         c.drawRoundRect(rightButton, corners, corners, p);
-        drawText("D", c, rightButton, p);
+        drawRedText("Delete", c, rightButton, p);
 
         buttonInstance = null;
         if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
@@ -176,9 +178,18 @@ class SwipeController extends Callback {
         }
     }
 
-    private void drawText(String text, Canvas c, RectF button, Paint p) {
-        float textSize = 25;
-        p.setColor(Color.WHITE);
+    private void drawBlueText(String text, Canvas c, RectF button, Paint p) {
+        float textSize = 50;
+        p.setColor(Color.parseColor("#03A9F4"));
+        p.setAntiAlias(true);
+        p.setTextSize(textSize);
+
+        float textWidth = p.measureText(text);
+        c.drawText(text, button.centerX()-(textWidth/2), button.centerY()+(textSize/2), p);
+    }
+    private void drawRedText(String text, Canvas c, RectF button, Paint p) {
+        float textSize = 50;
+        p.setColor(Color.parseColor("#FF4949"));
         p.setAntiAlias(true);
         p.setTextSize(textSize);
 

@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -36,15 +38,16 @@ import java.util.List;
 public class TaskActivity extends AppCompatActivity implements OnSelectDateListener {
 
     AppDatabase db;
-
+    String TAG = "myLog";
     EditText textShort;
     EditText textFull;
     EditText checkText;
-    Button buttonCalendar;
+    ImageButton buttonCalendar;
     FloatingActionButton buttonSave, buttonCheck;
     private int mYear, mMonth, mDay, mHour, mMinute;
     RecyclerView recyclerView;
     CheckAdapter adapter;
+    TextView textCalendar;
 
 
 
@@ -59,7 +62,8 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         checkText = findViewById(R.id.checkText);
         buttonSave = findViewById(R.id.buttonSave);
         buttonCalendar = findViewById(R.id.buttonCalendar);
-
+        textCalendar = findViewById(R.id.textCalendar);
+        Log.d(TAG, "onCreate: " + ' ' + textCalendar.getText());
         Intent intent = getIntent();
         final int cur_id = Integer.parseInt(intent.getStringExtra("id"));
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
@@ -77,7 +81,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
             textShort.setText(cur_task.get(0).shortText);
             textFull.setText(cur_task.get(0).longText);
             checkText.setText(cur_task.get(0).checkText);
-            buttonCalendar.setText(cur_task.get(0).dateText);
+            textCalendar.setText(cur_task.get(0).dateText);
         }
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -108,11 +112,11 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                 String check_box = checkText.getText().toString();
                 if(!checkIfEmpty(short_text, long_text)) {
                     if (cur_task.size() == 0) {
-                        Task task = new Task(short_text, long_text, check_box, String.valueOf(buttonCalendar.getText()), cur_id);
+                        Task task = new Task(short_text, long_text, check_box, String.valueOf(/*buttonCalendar.getText()*/ '1'), cur_id);
                         db.taskDao().insertAll(task);
                     } else {
                         Task task = db.taskDao().getTaskById(cur_id).get(0);
-                        db.taskDao().updateTask(cur_id, short_text, long_text, check_box , String.valueOf(buttonCalendar.getText()));
+                        db.taskDao().updateTask(cur_id, short_text, long_text, check_box , String.valueOf('1'/*buttonCalendar.getText()*/));
                     }
                     for (Check check : adapter.checks) {
                         Log.d("myLog",check.getCheckText() + ' ' + String.valueOf(check.getIsComplete()));
@@ -153,7 +157,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                     .headerLabelColor(R.color.currentMonthDayColor)
                     .selectionColor(R.color.daysLabelColor)
                     .todayLabelColor(R.color.colorAccent)
-                    .dialogButtonsColor(android.R.color.white)
+                    .dialogButtonsColor(R.color.colorPrimaryDark)
                     .disabledDaysLabelsColor(android.R.color.holo_purple)
                     .disabledDays(getDisabledDays());
 
@@ -188,7 +192,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                 Toast.makeText(getApplicationContext(),
                         calendar.getTime().toString(),
                         Toast.LENGTH_SHORT).show());
-        buttonCalendar.setText(calendars.get(0).getTime().toString());
+        //buttonCalendar.setText(calendars.get(0).getTime().toString());
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
@@ -200,7 +204,10 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
-                        buttonCalendar.setText( String.valueOf(buttonCalendar.getText()) + ' ' + mHour + ':' + mMinute);
+                        Log.d(TAG, "onTimeSetH: " + mHour);
+                        Log.d(TAG, "onTimeSetM: " + mMinute);
+                        Log.d(TAG, "onTimeSetA: " + c.getTime().toString().substring(4,7));
+                       textCalendar.setText(c.getTime().toString() +  ' ' + mHour + ':' + mMinute);
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();

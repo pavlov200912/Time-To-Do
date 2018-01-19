@@ -10,4 +10,7 @@
     <string name="checkStart">Create checked list</string>
     <string name="hint">Type here</string>
     <string name="putDate">Set date</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

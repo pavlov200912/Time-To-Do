@@ -213,19 +213,18 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                                           int minute) {
                         expireTimeInMillisecond = calendars.get(0).getTimeInMillis() + hourOfDay * 3600000 + minute * 60000;
                         String date = calendars.get(0).getTime().toString();
-                        expireTime = date.substring(4, 11) + date.substring(date.length() - 4, date.length()) + ' ' + String.valueOf(hourOfDay) + ':' + String.valueOf(minute);
+                        expireTime = date.substring(4, 11) + date.substring(date.length() - 4, date.length())
+                                + ' ' + parseDate(hourOfDay)
+                                + ':' + parseDate(minute);
                        textCalendar.setText(expireTime);
                     }
                 }, mHour, mMinute, true);
         timePickerDialog.show();
     }
-    public String parseDate(String date){
-        String month, day;
-        for(int i = 0;i<date.length();i++){
-            Log.d("myLog",i + ":"  + date.charAt(i));
+    public String parseDate(int date){
+        if(date<10){
+            return '0' + String.valueOf(date);
         }
-        month = date.substring(3,7);
-        day = date.substring(7,9);
-        return day + ' ' + month + ' ';
+        return String.valueOf(date);
     }
 }

@@ -10,16 +10,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.finepointmobile.myapplication.AppFragment">
-
-    <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
-
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <at.grabner.circleprogress.CircleProgressView
             android:id="@+id/circleView"
-            android:layout_width="277dp"
-            android:layout_height="277dp"
+            android:layout_width="200dp"
+            android:layout_height="202dp"
             CircleProgressView:cpv_autoTextSize="true"
             CircleProgressView:cpv_barColor="@color/primary"
             CircleProgressView:cpv_barWidth="35dp"
@@ -39,94 +37,46 @@
             CircleProgressView:cpv_unitScale="1"
             CircleProgressView:cpv_value="10" />
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="96dp"
+            android:layout_height="92dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/ic_launcher"
+            CircleProgressView:layout_anchor="@+id/circleView"
+            CircleProgressView:layout_anchorGravity="bottom|center"
+            CircleProgressView:layout_constraintBottom_toBottomOf="@+id/circleView"
+            CircleProgressView:layout_constraintEnd_toEndOf="@+id/circleView"
+            CircleProgressView:layout_constraintStart_toStartOf="parent"
+            CircleProgressView:layout_constraintTop_toTopOf="@+id/circleView" />
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/buttonAccess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="8dp"
+            android:text="Button"
+            CircleProgressView:layout_constraintBottom_toBottomOf="parent"
+            CircleProgressView:layout_constraintEnd_toEndOf="parent"
+            CircleProgressView:layout_constraintStart_toStartOf="parent"
+            CircleProgressView:layout_constraintTop_toTopOf="parent"
+            CircleProgressView:layout_constraintVertical_bias="0.498" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+        <Button
+            android:id="@+id/buttonApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            tools:layout_editor_absoluteX="173dp"
+            tools:layout_editor_absoluteY="307dp" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Value"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <SeekBar
-                    android:id="@+id/seekBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Spinning Bar Length"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <SeekBar
-                    android:id="@+id/seekBar2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Switch
-                        android:id="@+id/switch1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginRight="10dp"
-                        android:text="Spin" />
-
-                    <Switch
-                        android:id="@+id/switch2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Show Unit" />
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Unit Position"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp" />
-            </LinearLayout>
-        </ScrollView>
-
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
 </FrameLayout>

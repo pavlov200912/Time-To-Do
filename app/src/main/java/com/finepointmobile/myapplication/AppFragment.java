@@ -1,9 +1,12 @@
 package com.finepointmobile.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -38,36 +42,14 @@ import at.grabner.circleprogress.UnitPosition;
 public class AppFragment extends Fragment {
     private static final String TAG = "myLog" ;
     CircleProgressView mCircleView;
-    Switch mSwitchSpin;
-    Switch mSwitchShowUnit;
-    SeekBar mSeekBar;
-    SeekBar mSeekBarSpinnerLength;
-    Boolean mShowUnit = true;
-    Spinner mSpinner;
+
+    SharedPreferences sharedPreferences;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and ch1ange types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
-    public AppFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AppFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AppFragment newInstance(String param1, String param2) {
         AppFragment fragment = new AppFragment();
         Bundle args = new Bundle();
@@ -80,10 +62,6 @@ public class AppFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -91,6 +69,7 @@ public class AppFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_app, container, false);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mCircleView = (CircleProgressView) view.findViewById(R.id.circleView);
         mCircleView.setOnProgressChangedListener(new CircleProgressView.OnProgressChangedListener() {
             @Override
@@ -109,7 +88,7 @@ public class AppFragment extends Fragment {
                             case ANIMATING:
                             case START_ANIMATING_AFTER_SPINNING:
                                 mCircleView.setTextMode(TextMode.PERCENT); // show percent if not spinning
-                                mCircleView.setUnitVisible(mShowUnit);
+                                mCircleView.setUnitVisible(false);
                                 break;
                             case SPINNING:
                                 mCircleView.setTextMode(TextMode.TEXT); // show text while spinning
@@ -124,80 +103,6 @@ public class AppFragment extends Fragment {
                 }
         );
 
-
-        // region setup other ui elements
-        //Setup Switch
-        mSwitchSpin = (Switch) view.findViewById(R.id.switch1);
-        mSwitchSpin.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            mCircleView.spin();
-                        } else {
-                            mCircleView.stopSpinning();
-                        }
-                    }
-                }
-
-        );
-
-        mSwitchShowUnit = (Switch)view. findViewById(R.id.switch2);
-        mSwitchShowUnit.setChecked(mShowUnit);
-        mSwitchShowUnit.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        mCircleView.setUnitVisible(isChecked);
-                        mShowUnit = isChecked;
-                    }
-                }
-
-        );
-
-        //Setup SeekBar
-        mSeekBar = (SeekBar)view. findViewById(R.id.seekBar);
-
-        mSeekBar.setMax(100);
-        mSeekBar.setOnSeekBarChangeListener(
-                new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-                        mCircleView.setValueAnimated(seekBar.getProgress(), 1500);
-                        mSwitchSpin.setChecked(false);
-                    }
-                }
-        );
-
-        mSeekBarSpinnerLength = (SeekBar)view.findViewById(R.id.seekBar2);
-        mSeekBarSpinnerLength.setMax(360);
-        mSeekBarSpinnerLength.setOnSeekBarChangeListener(
-                new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-                        mCircleView.setSpinningBarLength(seekBar.getProgress());
-                    }
-                });
-
-        mSpinner = (Spinner) view.findViewById(R.id.spinner);
         List<String> list = new ArrayList<String>();
         list.add("Left Top");
         list.add("Left Bottom");
@@ -206,42 +111,30 @@ public class AppFragment extends Fragment {
         list.add("Top");
         list.add("Bottom");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
-        mSpinner.setAdapter(dataAdapter);
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        mCircleView.setUnitPosition(UnitPosition.LEFT_TOP);
-                        break;
-                    case 1:
-                        mCircleView.setUnitPosition(UnitPosition.LEFT_BOTTOM);
-                        break;
-                    case 2:
-                        mCircleView.setUnitPosition(UnitPosition.RIGHT_TOP);
-                        break;
-                    case 3:
-                        mCircleView.setUnitPosition(UnitPosition.RIGHT_BOTTOM);
-                        break;
-                    case 4:
-                        mCircleView.setUnitPosition(UnitPosition.TOP);
-                        break;
-                    case 5:
-                        mCircleView.setUnitPosition(UnitPosition.BOTTOM);
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        mSpinner.setSelection(2);
-        //endregion
 
 //        new LongOperation().execute();
+        Button btn_access = view.findViewById(R.id.buttonAccess);
+        btn_access.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sharedPreferences.getString("SericeWork","false") == "false"){
+                    Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent1 = new Intent(getActivity(),AllAppsActivity.class);
+                    startActivity(intent1);
+                }
+            }
+        });
+        Button btn_app = view.findViewById(R.id.buttonApp);
+        btn_app.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent1 = new Intent(getActivity(),AllAppsActivity.class);
+                    startActivity(intent1);
+            }
+        });
         return view;
     }
 
@@ -313,5 +206,28 @@ public class AppFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             mCircleView.setValueAnimated(42);
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        //TODO Change Value
+    }
+    private String getTimeString(){
+        long time = Long.valueOf(sharedPreferences.
+                getString("com.android.calendar","0"));
+        time /= 1000;
+        long hours = 0, minutes = 0, seconds = 0;
+        seconds = time%60;
+        minutes = (time/60)%60;
+        hours = (time/60)/60;
+        return timeFormat(hours) + ":"
+                + timeFormat(minutes) + ":"
+                + timeFormat(seconds);
+    }
+    private String timeFormat(long input){
+        if(input < 10){
+            return "0" + String.valueOf(input);
+        }
+        return String.valueOf(input);
     }
 }

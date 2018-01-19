@@ -29,12 +29,16 @@ public class Task{
     @ColumnInfo(name = "date_text")
     String dateText;
 
-    public Task(String shortText, String longText, String checkText, String dateText, int taskId) {
+    @ColumnInfo(name = "expire_date")
+    long expireDate;
+
+    public Task(String shortText, String longText, String checkText, String dateText, int taskId, long expireDate) {
         this.shortText = shortText;
         this.longText = longText;
         this.checkText = checkText;
         this.dateText = dateText;
         this.taskId = taskId;
+        this.expireDate = expireDate;
     }
 
     public String getDateText() {
@@ -83,5 +87,13 @@ public class Task{
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public long getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(long expireDate) {
+        this.expireDate = expireDate;
     }
 }

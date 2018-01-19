@@ -29,6 +29,7 @@ import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -49,7 +50,8 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
     CheckAdapter adapter;
     TextView textCalendar;
 
-
+    String expireTime;
+    long expireTimeInMillisecond;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,7 +65,6 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         buttonSave = findViewById(R.id.buttonSave);
         buttonCalendar = findViewById(R.id.buttonCalendar);
         textCalendar = findViewById(R.id.textCalendar);
-        Log.d(TAG, "onCreate: " + ' ' + textCalendar.getText());
         Intent intent = getIntent();
         final int cur_id = Integer.parseInt(intent.getStringExtra("id"));
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
@@ -82,6 +83,8 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
             textFull.setText(cur_task.get(0).longText);
             checkText.setText(cur_task.get(0).checkText);
             textCalendar.setText(cur_task.get(0).dateText);
+            expireTimeInMillisecond = cur_task.get(0).expireDate;
+            expireTime = cur_task.get(0).dateText;
         }
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -112,11 +115,11 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                 String check_box = checkText.getText().toString();
                 if(!checkIfEmpty(short_text, long_text)) {
                     if (cur_task.size() == 0) {
-                        Task task = new Task(short_text, long_text, check_box, String.valueOf(/*buttonCalendar.getText()*/ '1'), cur_id);
+                        Task task = new Task(short_text, long_text, check_box, expireTime, cur_id, expireTimeInMillisecond);
                         db.taskDao().insertAll(task);
                     } else {
                         Task task = db.taskDao().getTaskById(cur_id).get(0);
-                        db.taskDao().updateTask(cur_id, short_text, long_text, check_box , String.valueOf('1'/*buttonCalendar.getText()*/));
+                        db.taskDao().updateTask(cur_id, short_text, long_text, check_box , expireTime, expireTimeInMillisecond);
                     }
                     for (Check check : adapter.checks) {
                         Log.d("myLog",check.getCheckText() + ' ' + String.valueOf(check.getIsComplete()));
@@ -167,7 +170,8 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
     }
 
     boolean checkIfEmpty(String short_text, String long_text) {
-        return short_text.isEmpty() || long_text.isEmpty();
+        return false;
+        //return short_text.isEmpty() || long_text.isEmpty();
     }
     private List<Calendar> getDisabledDays() {
         /*Calendar firstDisabled = DateUtils.getCalendar();
@@ -188,10 +192,13 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
 
     @Override
     public void onSelect(List<Calendar> calendars) {
+        final String[] t = new String[1];
         Stream.of(calendars).forEach(calendar ->
-                Toast.makeText(getApplicationContext(),
+                t[0] = calendar.getTime().toString());
+                /*Toast.makeText(getApplicationContext(),
                         calendar.getTime().toString(),
-                        Toast.LENGTH_SHORT).show());
+                        Toast.LENGTH_SHORT).show();*/
+
         //buttonCalendar.setText(calendars.get(0).getTime().toString());
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -204,12 +211,12 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
-                        Log.d(TAG, "onTimeSetH: " + mHour);
-                        Log.d(TAG, "onTimeSetM: " + mMinute);
-                        Log.d(TAG, "onTimeSetA: " + c.getTime().toString().substring(4,7));
-                       textCalendar.setText(c.getTime().toString() +  ' ' + mHour + ':' + mMinute);
+                        expireTimeInMillisecond = calendars.get(0).getTimeInMillis() + hourOfDay * 3600000 + minute * 60000;
+                        String date = calendars.get(0).getTime().toString();
+                        expireTime = date.substring(4, 11) + date.substring(date.length() - 4, date.length()) + ' ' + String.valueOf(hourOfDay) + ':' + String.valueOf(minute);
+                       textCalendar.setText(expireTime);
                     }
-                }, mHour, mMinute, false);
+                }, mHour, mMinute, true);
         timePickerDialog.show();
     }
     public String parseDate(String date){

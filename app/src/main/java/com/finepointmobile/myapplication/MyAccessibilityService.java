@@ -30,10 +30,7 @@ public class MyAccessibilityService extends AccessibilityService {
         newApp = sourcePackageName;
         if(!oldApp.equals(newApp)){
             Log.d(TAG, "was:" + oldApp + " now:" + newApp);
-            if(db.circlesDao().getCirclesByName(oldApp).isEmpty()){
-                db.circlesDao().insertAll(new Circles(oldApp,System.currentTimeMillis() - time,3600000));
-            }
-            else{
+            if(!db.circlesDao().getCirclesByName(oldApp).isEmpty()){
                 db.circlesDao().updateTime(oldApp,System.currentTimeMillis() - time);
             }
             oldApp = newApp;

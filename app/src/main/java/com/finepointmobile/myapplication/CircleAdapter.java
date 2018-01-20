@@ -62,22 +62,20 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
             public void onProgressChanged(float value) {
             }
         });
-        holder.mCircleView.setShowTextWhileSpinning(true); // Show/hide text in spinning mode
+        holder.mCircleView.setShowTextWhileSpinning(false); // Show/hide text in spinning mode
         holder.mCircleView.setText("Loading...");
+        holder.mCircleView.setText("");
+        holder.mCircleView.setInnerContourColor(Color.parseColor("#64dd17"));
         holder.mCircleView.setOnAnimationStateChangedListener(
                 new AnimationStateChangedListener() {
                     @Override
                     public void onAnimationStateChanged(AnimationState _animationState) {
                         switch (_animationState) {
-                            case IDLE:
-                            case ANIMATING:
+                            case IDLE: break;
+                            case ANIMATING: break;
                             case START_ANIMATING_AFTER_SPINNING:
-                                holder.mCircleView.setTextMode(TextMode.PERCENT); // show percent if not spinning
-                                holder.mCircleView.setUnitVisible(false);
                                 break;
-                            case SPINNING:
-                                holder.mCircleView.setTextMode(TextMode.TEXT); // show text while spinning
-                                holder.mCircleView.setUnitVisible(false);
+                            case SPINNING:break;
                             case END_SPINNING:
                                 break;
                             case END_SPINNING_START_ANIMATING:
@@ -87,13 +85,15 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
                     }
                 }
         );
-        holder.mCircleView.setText("");
-        holder.mCircleView.setInnerContourColor(Color.parseColor("#64dd17"));
+
         int minutes = (int)(circles.get(position).getTime() / 60000);
         int limitMunutes = (int)(circles.get(position).getLimitTime()/60000);
+        Log.d("myLog", "onBindViewHolder: " + minutes + ' ' + limitMunutes);
         holder.timeApp.setText("Oсталось " + Math.max(limitMunutes - minutes,0) + " мин. из " + limitMunutes);
-        double procent = Math.min(1, minutes/limitMunutes);
-        holder.mCircleView.setValueAnimated((float) (100*(1 - procent)),1500);
+        double procent = Math.min(1, (double)minutes/(double)limitMunutes);
+        Log.d("myLog", "onBindViewHolder: " + procent);
+        holder.mCircleView.setValue((float) (100*(1 - procent)));
+
         packageManager = context.getPackageManager();
         applist = checkForLaunchIntent(packageManager.getInstalledApplications(PackageManager.GET_META_DATA));
         ApplicationInfo app = findApp(applist,circles.get(position).packageName);

@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.Resource;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import java.util.List;
 import at.grabner.circleprogress.AnimationState;
 import at.grabner.circleprogress.AnimationStateChangedListener;
 import at.grabner.circleprogress.CircleProgressView;
+import at.grabner.circleprogress.ColorUtils;
 import at.grabner.circleprogress.TextMode;
 
 /**
@@ -57,34 +60,15 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(CircleAdapter.ViewHolder holder, int position) {
-        holder.mCircleView.setOnProgressChangedListener(new CircleProgressView.OnProgressChangedListener() {
-            @Override
-            public void onProgressChanged(float value) {
-            }
-        });
         holder.mCircleView.setShowTextWhileSpinning(false); // Show/hide text in spinning mode
-        holder.mCircleView.setText("Loading...");
+        //TODO CALC TEXT COLOR()
+        holder.mCircleView.setClickable(false);
+        holder.mCircleView.setTextMode(TextMode.TEXT);
+        holder.mCircleView.setUnitVisible(false);
         holder.mCircleView.setText("");
-        holder.mCircleView.setInnerContourColor(Color.parseColor("#64dd17"));
-        holder.mCircleView.setOnAnimationStateChangedListener(
-                new AnimationStateChangedListener() {
-                    @Override
-                    public void onAnimationStateChanged(AnimationState _animationState) {
-                        switch (_animationState) {
-                            case IDLE: break;
-                            case ANIMATING: break;
-                            case START_ANIMATING_AFTER_SPINNING:
-                                break;
-                            case SPINNING:break;
-                            case END_SPINNING:
-                                break;
-                            case END_SPINNING_START_ANIMATING:
-                                break;
-
-                        }
-                    }
-                }
-        );
+        holder.mCircleView.setBarColor(Color.parseColor("#4fc3f7"), Color.parseColor("#0288D1"), Color.parseColor("#26C6DA"));
+        //holder.mCircleView.setBarColor(Color.parseColor("#64dd17"));
+        holder.mCircleView.setSeekModeEnabled(true);
 
         int minutes = (int)(circles.get(position).getTime() / 60000);
         int limitMunutes = (int)(circles.get(position).getLimitTime()/60000);

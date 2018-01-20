@@ -24,48 +24,48 @@ public class ColorUtils {
 
 
 // not finished
-//    public static @ColorInt int getHSVGradient(@ColorInt int startColor,@ColorInt int endColor, float proportion, HSVColorDirection _direction) {
-//        float[] startHSV = new float[3];
-//        float[] endHSV = new float[3];
-//        Color.colorToHSV(startColor, startHSV);
-//        Color.colorToHSV(endColor, endHSV);
-//
-//        float brightness = (startHSV[2] + endHSV[2]) / 2;
-//        float saturation = (startHSV[1] + endHSV[1]) / 2;
-//
-//        // determine clockwise and counter-clockwise distance between hues
-//        float distCCW = (startHSV[0] >= endHSV[0]) ?  360 - startHSV[0] -   endHSV[0] : startHSV[0] -   endHSV[0];
-//        float distCW =  (startHSV[0] >= endHSV[0]) ?  endHSV[0] - startHSV[0] :   360 - endHSV[0] - startHSV[0];
-//        float hue = 0;
-//        switch (_direction) {
-//
-//            case ClockWise:
-//                hue = startHSV[0] + (distCW * proportion) % 360;
-//                break;
-//            case CounterClockWise:
-//                hue = startHSV[0] + (distCCW * proportion) % 360;
-//                break;
-//            case Shortest:
-//                break;
-//            case Longest:
-//                break;
-//        }
-//
-//        // interpolate h
-//        float hue = (float) ((distCW <= distCCW) ? startHSV[0] + (distCW * proportion) : startHSV[0] - (distCCW * proportion));
-//        //reuse array
-//        endHSV[0] = hue;
-//        endHSV[1] = saturation;
-//        endHSV[2] = brightness;
-//        return Color.HSVToColor(endHSV);
-//
-//    }
-//
-//    enum HSVColorDirection{
-//        ClockWise,
-//        CounterClockWise,
-//        Shortest,
-//        Longest
-//    }
+    public static @ColorInt int getHSVGradient(@ColorInt int startColor,@ColorInt int endColor, float proportion, HSVColorDirection _direction) {
+        float[] startHSV = new float[3];
+        float[] endHSV = new float[3];
+        Color.colorToHSV(startColor, startHSV);
+        Color.colorToHSV(endColor, endHSV);
+
+        float brightness = (startHSV[2] + endHSV[2]) / 2;
+        float saturation = (startHSV[1] + endHSV[1]) / 2;
+
+        // determine clockwise and counter-clockwise distance between hues
+        float distCCW = (startHSV[0] >= endHSV[0]) ?  360 - startHSV[0] -   endHSV[0] : startHSV[0] -   endHSV[0];
+        float distCW =  (startHSV[0] >= endHSV[0]) ?  endHSV[0] - startHSV[0] :   360 - endHSV[0] - startHSV[0];
+        float hue = 0;
+        switch (_direction) {
+
+            case ClockWise:
+                hue = startHSV[0] + (distCW * proportion) % 360;
+                break;
+            case CounterClockWise:
+                hue = startHSV[0] + (distCCW * proportion) % 360;
+                break;
+            case Shortest:
+                break;
+            case Longest:
+                break;
+        }
+
+        // interpolate h
+        hue = (float) ((distCW <= distCCW) ? startHSV[0] + (distCW * proportion) : startHSV[0] - (distCCW * proportion));
+        //reuse array
+        endHSV[0] = hue;
+        endHSV[1] = saturation;
+        endHSV[2] = brightness;
+        return Color.HSVToColor(endHSV);
+
+    }
+
+    public enum HSVColorDirection{
+        ClockWise,
+        CounterClockWise,
+        Shortest,
+        Longest
+   }
 
 }

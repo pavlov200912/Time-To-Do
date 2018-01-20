@@ -12,18 +12,70 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.finepointmobile.myapplication.AppFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="UserName"
+                CircleProgressView:layout_constraintEnd_toEndOf="parent"
+                CircleProgressView:layout_constraintStart_toStartOf="parent"
+                CircleProgressView:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/userLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                CircleProgressView:layout_constraintEnd_toEndOf="parent"
+                CircleProgressView:layout_constraintStart_toStartOf="parent"
+                CircleProgressView:layout_constraintTop_toBottomOf="@+id/userName"
+                tools:ignore="MissingConstraints" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                CircleProgressView:layout_constraintEnd_toEndOf="parent"
+                CircleProgressView:layout_constraintStart_toStartOf="parent"
+                CircleProgressView:layout_constraintTop_toBottomOf="@+id/userLevel" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/buttonAccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:clickable="true"
+                CircleProgressView:backgroundTint="@color/floatingCheck"
+                CircleProgressView:layout_constraintBottom_toBottomOf="parent"
+                CircleProgressView:srcCompat="@drawable/ic_add_white_24dp"
+                tools:layout_editor_absoluteX="8dp" />
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_circle"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="match_parent"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            CircleProgressView:layout_constraintBottom_toTopOf="@+id/buttonAccess"
             CircleProgressView:layout_constraintEnd_toEndOf="parent"
             CircleProgressView:layout_constraintTop_toBottomOf="@+id/progressBar"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,52 +83,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="UserName"
-            CircleProgressView:layout_constraintEnd_toEndOf="parent"
-            CircleProgressView:layout_constraintStart_toStartOf="parent"
-            CircleProgressView:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/userLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            CircleProgressView:layout_constraintTop_toBottomOf="@+id/userName"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="147dp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            CircleProgressView:layout_constraintEnd_toEndOf="parent"
-            CircleProgressView:layout_constraintStart_toStartOf="parent"
-            CircleProgressView:layout_constraintTop_toBottomOf="@+id/userLevel" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/buttonAccess"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            CircleProgressView:backgroundTint="@color/floatingCheck"
-            CircleProgressView:layout_constraintBottom_toBottomOf="parent"
-            CircleProgressView:srcCompat="@drawable/ic_add_white_24dp"
-            tools:layout_editor_absoluteX="8dp" />
-
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 
 </FrameLayout>

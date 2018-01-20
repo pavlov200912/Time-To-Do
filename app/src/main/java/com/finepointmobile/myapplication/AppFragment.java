@@ -1,13 +1,22 @@
 package com.finepointmobile.myapplication;
 
+import android.app.ActivityManager;
+import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +25,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,13 +54,18 @@ import at.grabner.circleprogress.UnitPosition;
 public class AppFragment extends Fragment {
     private static final String TAG = "myLog" ;
     CircleProgressView mCircleView;
-
-    SharedPreferences sharedPreferences;
+    ApplicationInfo app;
+    private PackageManager packageManager = null;
+    private List<ApplicationInfo> applist = null;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private OnFragmentInteractionListener mListener;
+    TextView timeApp;
+    AppDatabase db;
+    CircleAdapter adapter;
+    RecyclerView recyclerView;
 
     public static AppFragment newInstance(String param1, String param2) {
         AppFragment fragment = new AppFragment();
@@ -67,58 +84,19 @@ public class AppFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_app, container, false);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mCircleView = (CircleProgressView) view.findViewById(R.id.circleView);
-        mCircleView.setOnProgressChangedListener(new CircleProgressView.OnProgressChangedListener() {
-            @Override
-            public void onProgressChanged(float value) {
-                Log.d(TAG, "Progress Changed: " + value);
-            }
-        });
-        mCircleView.setShowTextWhileSpinning(true); // Show/hide text in spinning mode
-        mCircleView.setText("Loading...");
-        mCircleView.setOnAnimationStateChangedListener(
-                new AnimationStateChangedListener() {
-                    @Override
-                    public void onAnimationStateChanged(AnimationState _animationState) {
-                        switch (_animationState) {
-                            case IDLE:
-                            case ANIMATING:
-                            case START_ANIMATING_AFTER_SPINNING:
-                                mCircleView.setTextMode(TextMode.PERCENT); // show percent if not spinning
-                                mCircleView.setUnitVisible(false);
-                                break;
-                            case SPINNING:
-                                mCircleView.setTextMode(TextMode.TEXT); // show text while spinning
-                                mCircleView.setUnitVisible(false);
-                            case END_SPINNING:
-                                break;
-                            case END_SPINNING_START_ANIMATING:
-                                break;
 
-                        }
-                    }
-                }
-        );
-
-        List<String> list = new ArrayList<String>();
-        list.add("Left Top");
-        list.add("Left Bottom");
-        list.add("Right Top");
-        list.add("Right Bottom");
-        list.add("Top");
-        list.add("Bottom");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
 
 //        new LongOperation().execute();
-        Button btn_access = view.findViewById(R.id.buttonAccess);
+        FloatingActionButton btn_access = view.findViewById(R.id.buttonAccess);
         btn_access.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(sharedPreferences.getString("SericeWork","false") == "false"){
-                    Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+            public void onClick(View v){
+
+                if(!isMyServiceRunning(MyAccessibilityService.class)){
+                    Intent intent = new Intent(android.provider.Settings.
+                            ACTION_ACCESSIBILITY_SETTINGS);
                     startActivity(intent);
                 }
                 else{
@@ -127,14 +105,17 @@ public class AppFragment extends Fragment {
                 }
             }
         });
-        Button btn_app = view.findViewById(R.id.buttonApp);
-        btn_app.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent1 = new Intent(getActivity(),AllAppsActivity.class);
-                    startActivity(intent1);
-            }
-        });
+        recyclerView = view.findViewById(R.id.recycler_circle);
+        db = Room.databaseBuilder(getContext(), AppDatabase.class, "production")
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
+        Log.d(TAG, "Data base: " + db.circlesDao().getAll().size());
+        if (db.circlesDao().getAll().size() != 0) {
+            adapter = new CircleAdapter(db.circlesDao().getAll(), getActivity());
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(adapter);
+        }
         return view;
     }
 
@@ -211,23 +192,40 @@ public class AppFragment extends Fragment {
     public void onResume() {
         super.onResume();
         //TODO Change Value
-    }
-    private String getTimeString(){
-        long time = Long.valueOf(sharedPreferences.
-                getString("com.android.calendar","0"));
-        time /= 1000;
-        long hours = 0, minutes = 0, seconds = 0;
-        seconds = time%60;
-        minutes = (time/60)%60;
-        hours = (time/60)/60;
-        return timeFormat(hours) + ":"
-                + timeFormat(minutes) + ":"
-                + timeFormat(seconds);
-    }
-    private String timeFormat(long input){
-        if(input < 10){
-            return "0" + String.valueOf(input);
+        if(db.circlesDao().getAll().size() > 0 && !db.circlesDao().getAll().get(0).packageName.equals("")) {
+            Log.d("myLog","OnResume");
+            for (Circles circles : db.circlesDao().getAll()) {
+                Log.d(TAG, circles.getPackageName() + circles.getTime());
+            }
+            adapter = new CircleAdapter(db.circlesDao().getAll(), getActivity());
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(adapter);
         }
-        return String.valueOf(input);
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getContext().
+                getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.
+                getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private List<ApplicationInfo> checkForLaunchIntent(List<ApplicationInfo> list) {
+        ArrayList<ApplicationInfo> applist = new ArrayList<ApplicationInfo>();
+        for (ApplicationInfo info : list) {
+            try {
+                if (null != packageManager.getLaunchIntentForPackage(info.packageName)) {
+                    applist.add(info);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return applist;
     }
 }

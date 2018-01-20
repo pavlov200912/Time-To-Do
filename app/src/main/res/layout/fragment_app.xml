@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,71 +11,70 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.finepointmobile.myapplication.AppFragment">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <at.grabner.circleprogress.CircleProgressView
-            android:id="@+id/circleView"
-            android:layout_width="200dp"
-            android:layout_height="202dp"
-            CircleProgressView:cpv_autoTextSize="true"
-            CircleProgressView:cpv_barColor="@color/primary"
-            CircleProgressView:cpv_barWidth="35dp"
-            CircleProgressView:cpv_innerContourSize="0dp"
-            CircleProgressView:cpv_maxValue="100"
-            CircleProgressView:cpv_outerContourSize="0dp"
-            CircleProgressView:cpv_rimColor="@color/primary_light"
-            CircleProgressView:cpv_rimWidth="35dp"
-            CircleProgressView:cpv_seekMode="true"
-            CircleProgressView:cpv_showUnit="true"
-            CircleProgressView:cpv_spinColor="@color/primary"
-            CircleProgressView:cpv_textColor="@color/primary_dark"
-            CircleProgressView:cpv_textScale="1"
-            CircleProgressView:cpv_unit="%"
-            CircleProgressView:cpv_unitColor="@color/primary_light"
-            CircleProgressView:cpv_unitPosition="right_top"
-            CircleProgressView:cpv_unitScale="1"
-            CircleProgressView:cpv_value="10" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="96dp"
-            android:layout_height="92dp"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_circle"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            CircleProgressView:layout_constraintBottom_toTopOf="@+id/buttonAccess"
+            CircleProgressView:layout_constraintEnd_toEndOf="parent"
+            CircleProgressView:layout_constraintTop_toBottomOf="@+id/progressBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:src="@mipmap/ic_launcher"
-            CircleProgressView:layout_anchor="@+id/circleView"
-            CircleProgressView:layout_anchorGravity="bottom|center"
-            CircleProgressView:layout_constraintBottom_toBottomOf="@+id/circleView"
-            CircleProgressView:layout_constraintEnd_toEndOf="@+id/circleView"
+            android:text="UserName"
+            CircleProgressView:layout_constraintEnd_toEndOf="parent"
             CircleProgressView:layout_constraintStart_toStartOf="parent"
-            CircleProgressView:layout_constraintTop_toTopOf="@+id/circleView" />
+            CircleProgressView:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <TextView
+            android:id="@+id/userLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            CircleProgressView:layout_constraintTop_toBottomOf="@+id/userName"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="147dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            CircleProgressView:layout_constraintEnd_toEndOf="parent"
+            CircleProgressView:layout_constraintStart_toStartOf="parent"
+            CircleProgressView:layout_constraintTop_toBottomOf="@+id/userLevel" />
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/buttonAccess"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="68dp"
-            android:layout_marginTop="8dp"
-            android:text="Button"
+            android:clickable="true"
+            CircleProgressView:backgroundTint="@color/floatingCheck"
             CircleProgressView:layout_constraintBottom_toBottomOf="parent"
-            CircleProgressView:layout_constraintEnd_toEndOf="parent"
-            CircleProgressView:layout_constraintStart_toStartOf="parent"
-            CircleProgressView:layout_constraintTop_toTopOf="parent"
-            CircleProgressView:layout_constraintVertical_bias="0.498" />
-
-        <Button
-            android:id="@+id/buttonApp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            tools:layout_editor_absoluteX="173dp"
-            tools:layout_editor_absoluteY="307dp" />
+            CircleProgressView:srcCompat="@drawable/ic_add_white_24dp"
+            tools:layout_editor_absoluteX="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 

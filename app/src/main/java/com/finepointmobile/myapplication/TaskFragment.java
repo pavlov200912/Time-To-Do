@@ -96,21 +96,23 @@ public class TaskFragment extends Fragment {
         adapter = new TaskAdapter(db.taskDao().getAllSorted());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        /*recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(MainActivity.this,TaskActivity.class);
-                        String card_id = String.valueOf(db.taskDao().getAll().get(position).getTaskId());
+                        Intent intent = new Intent(getActivity(),TaskActivity.class);
+                        String card_id = String.valueOf(adapter.tasks.get(position).getTaskId());
+                        Log.d(TAG, "onEditClicked: " + String.valueOf(card_id));
                         intent.putExtra("id",card_id);
                         startActivity(intent);
                     }
                 })
-        );*/
+        );
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
                 //TODO remove from db
+                Toast.makeText(getContext(),"You should try harder.",Toast.LENGTH_SHORT);
                 Log.d(TAG, "onDeleteClicked from ADAPTER id_deleted:" + adapter.tasks.get(position).getTaskId() + " text deleted" + adapter.tasks.get(position).getShortText() );
                 db.taskDao().deleteTaskById(adapter.tasks.get(position).getTaskId());
                 db.checkDao().deleteById(adapter.tasks.get(position).getTaskId());
@@ -127,6 +129,8 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void onLeftClicked(int position) {
+                Toast.makeText(getContext(),"Well done! +10 TP",Toast.LENGTH_SHORT);
+                SavePreferences("TP",10);
                 Intent intent = new Intent(getActivity(),TaskActivity.class);
                 String card_id = String.valueOf(adapter.tasks.get(position).getTaskId());
 

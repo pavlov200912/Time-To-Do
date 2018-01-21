@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -66,6 +67,9 @@ public class AppFragment extends Fragment {
     AppDatabase db;
     CircleAdapter adapter;
     RecyclerView recyclerView;
+    ProgressBar progressBar;
+    SharedPreferences sharedPreferences;
+    TextView textView;
 
     public static AppFragment newInstance(String param1, String param2) {
         AppFragment fragment = new AppFragment();
@@ -86,7 +90,7 @@ public class AppFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_app, container, false);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
 //        new LongOperation().execute();
         FloatingActionButton btn_access = view.findViewById(R.id.buttonAccess);
@@ -116,6 +120,15 @@ public class AppFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
         }
+        int points = sharedPreferences.getInt("TP",0);
+        if(points > 100){
+            SavePreferences("TP",points%100);
+            SavePreferences("level",points/100);
+        }
+        progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setProgress(sharedPreferences.getInt("TP",0));
+        textView = view.findViewById(R.id.userLevel);
+        textView.setText("Level:" + sharedPreferences.getInt("level",1));
         return view;
     }
 
@@ -140,6 +153,11 @@ public class AppFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+    public void SavePreferences(String key, int value) {
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt(key, value);
+        edit.commit();
     }
 
     /**
@@ -201,6 +219,14 @@ public class AppFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
         }
+        int points = sharedPreferences.getInt("TP",0);
+        if(points > 100){
+            SavePreferences("TP",points%100);
+            SavePreferences("level",points/100);
+        }
+        textView.setText("Level:" + sharedPreferences.getInt("level",1));
+        progressBar.setProgress(sharedPreferences.getInt("TP",0));
+
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {

@@ -33,7 +33,7 @@ class SwipeController extends Callback {
 
     private SwipeControllerActions buttonsActions = null;
 
-    private static final float buttonWidth = 200;
+    private static final float buttonWidth = 300;
 
     public SwipeController(SwipeControllerActions buttonsActions) {
         this.buttonsActions = buttonsActions;
@@ -159,15 +159,15 @@ class SwipeController extends Callback {
         View itemView = viewHolder.itemView;
         Paint p = new Paint();
 
-        RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
+        RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom() - 10);
         p.setColor(Color.WHITE);
         c.drawRoundRect(leftButton, corners, corners, p);
-        drawBlueText("Edit", c, leftButton, p);
+        drawBlueText("Completed", c, leftButton, p);
 
-        RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+        RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom() - 10);
         p.setColor(Color.WHITE);
         c.drawRoundRect(rightButton, corners, corners, p);
-        drawRedText("Delete", c, rightButton, p);
+        drawRedText("Edit", c, rightButton, p);
 
         buttonInstance = null;
         if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
@@ -180,7 +180,7 @@ class SwipeController extends Callback {
 
     private void drawBlueText(String text, Canvas c, RectF button, Paint p) {
         float textSize = 50;
-        p.setColor(Color.parseColor("#03A9F4"));
+        p.setColor(Color.parseColor("#2ff200"));
         p.setAntiAlias(true);
         p.setTextSize(textSize);
 
@@ -189,7 +189,7 @@ class SwipeController extends Callback {
     }
     private void drawRedText(String text, Canvas c, RectF button, Paint p) {
         float textSize = 50;
-        p.setColor(Color.parseColor("#FF4949"));
+        p.setColor(Color.parseColor("#0288D1"));
         p.setAntiAlias(true);
         p.setTextSize(textSize);
 

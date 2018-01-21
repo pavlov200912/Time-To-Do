@@ -1,1 +1,1 @@
-include ':app', ':library', ':CircleProgressView'
+include ':app', ':library', ':CircleProgressView', ':vksdk_library'

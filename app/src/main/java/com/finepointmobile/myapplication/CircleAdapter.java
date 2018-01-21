@@ -68,7 +68,7 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
         holder.mCircleView.setText("");
         holder.mCircleView.setBarColor(Color.parseColor("#4fc3f7"), Color.parseColor("#0288D1"), Color.parseColor("#26C6DA"));
         //holder.mCircleView.setBarColor(Color.parseColor("#64dd17"));
-        holder.mCircleView.setSeekModeEnabled(true);
+        holder.mCircleView.setSeekModeEnabled(false);
 
         int minutes = (int)(circles.get(position).getTime() / 60000);
         int limitMunutes = (int)(circles.get(position).getLimitTime()/60000);

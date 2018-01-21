@@ -25,17 +25,29 @@ public class MyAccessibilityService extends AccessibilityService {
     AppDatabase db;
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        checkDate();
-        final String sourcePackageName = (String) accessibilityEvent.getPackageName();
-        newApp = sourcePackageName;
-        if(!oldApp.equals(newApp)){
-            Log.d(TAG, "was:" + oldApp + " now:" + newApp);
-            if(!db.circlesDao().getCirclesByName(oldApp).isEmpty()){
-                db.circlesDao().updateTime(oldApp,System.currentTimeMillis() - time);
-            }
-            oldApp = newApp;
-            time = System.currentTimeMillis();
+        final int eventType = accessibilityEvent.getEventType();
+        if(eventType == AccessibilityEvent.TYPE_VIEW_CLICKED){
+            Log.d("click", "onAccessibilityEvent: Clicked Mooow");
+        }
+        else if(eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED){
+            Log.d("click", "onAccessibilityEvent: Focused Mooow");
+        }
+        else if(eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED){
+            Log.d("click", "onAccessibilityEvent: Scrolled Mooow");
+        }
+        else{
+            checkDate();
+            final String sourcePackageName = (String) accessibilityEvent.getPackageName();
+            newApp = sourcePackageName;
+            if(!oldApp.equals(newApp)){
+                Log.d(TAG, "was:" + oldApp + " now:" + newApp);
+                if(!db.circlesDao().getCirclesByName(oldApp).isEmpty()){
+                    db.circlesDao().updateTime(oldApp,System.currentTimeMillis() - time);
+                }
+                oldApp = newApp;
+                time = System.currentTimeMillis();
 
+            }
         }
     }
 
@@ -56,7 +68,8 @@ public class MyAccessibilityService extends AccessibilityService {
         time = System.currentTimeMillis();
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
         info.eventTypes = AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED |
-                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED | AccessibilityEvent.TYPE_VIEW_CLICKED;
+                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED | AccessibilityEvent.TYPE_VIEW_CLICKED |
+                AccessibilityEvent.TYPE_VIEW_FOCUSED | AccessibilityEvent.TYPE_VIEW_SCROLLED;
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
         this.setServiceInfo(info);
     }

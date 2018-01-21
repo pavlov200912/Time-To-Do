@@ -34,18 +34,18 @@ import java.text.DecimalFormat;
 /**
  * An circle view, similar to Android's ProgressBar.
  * Can be used in 'value mode' or 'spinning mode'.
- * <p/>
+ *
  * In spinning mode it can be used like a intermediate progress bar.
- * <p/>
+ *
  * In value mode it can be used as a progress bar or to visualize any other value.
  * Setting a value is fully animated. There are also nice transitions from animating to value mode.
- * <p/>
+ *
  * Typical use case would be to load a new value. During the loading time set the CircleView to spinning.
  * As soon as you get your value, just set it with {@link #setValueAnimated(float, long)}.
  *
  * @author Jakob Grabner, based on the Progress wheel of Todd Davies
  *         https://github.com/Todd-Davies/CircleView
- *         <p/>
+ *
  *         Licensed under the Creative Commons Attribution 3.0 license see:
  *         http://creativecommons.org/licenses/by/3.0/
  */
@@ -251,7 +251,7 @@ public class CircleProgressView extends View {
      * The return should range from [0,360), rotating CLOCKWISE,
      * 0 and 360 degrees represents EAST,
      * 90 degrees represents SOUTH, etc...
-     * <p/>
+     *
      * Assumes all points are in the same coordinate space.  If they are not,
      * you will need to call SwingUtilities.convertPointToScreen or equivalent
      * on all arguments before passing them  to this function.

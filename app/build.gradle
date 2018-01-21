@@ -8,7 +8,7 @@ android {
         maven { url "https://jitpack.io" }
     }
     defaultConfig {
-        applicationId "com.finepointmobile.roomtest1"
+        applicationId "com.finepointmobile.myapplication"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1

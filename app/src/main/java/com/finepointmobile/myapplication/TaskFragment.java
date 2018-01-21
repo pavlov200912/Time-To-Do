@@ -103,6 +103,7 @@ public class TaskFragment extends Fragment {
                         Intent intent = new Intent(getActivity(),TaskActivity.class);
                         String card_id = String.valueOf(adapter.tasks.get(position).getTaskId());
                         Log.d(TAG, "onEditClicked: " + String.valueOf(card_id));
+                        intent.putExtra("edit",false);
                         intent.putExtra("id",card_id);
                         startActivity(intent);
                     }
@@ -112,7 +113,19 @@ public class TaskFragment extends Fragment {
             @Override
             public void onRightClicked(int position) {
                 //TODO remove from db
-                Toast.makeText(getContext(),"You should try harder.",Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(),"Well done! +10 TP",Toast.LENGTH_SHORT);
+                SavePreferences("TP",10);
+                Intent intent = new Intent(getActivity(),TaskActivity.class);
+                String card_id = String.valueOf(adapter.tasks.get(position).getTaskId());
+                intent.putExtra("edit",true);
+                Log.d(TAG, "onEditClicked: " + String.valueOf(card_id));
+                intent.putExtra("id",card_id);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLeftClicked(int position) {
+                Toast.makeText(getActivity(),"Editing",Toast.LENGTH_SHORT);
                 Log.d(TAG, "onDeleteClicked from ADAPTER id_deleted:" + adapter.tasks.get(position).getTaskId() + " text deleted" + adapter.tasks.get(position).getShortText() );
                 db.taskDao().deleteTaskById(adapter.tasks.get(position).getTaskId());
                 db.checkDao().deleteById(adapter.tasks.get(position).getTaskId());
@@ -125,18 +138,6 @@ public class TaskFragment extends Fragment {
                 }
                 adapter.notifyItemRemoved(position);
                 adapter.notifyItemRangeChanged(position, adapter.getItemCount());
-            }
-
-            @Override
-            public void onLeftClicked(int position) {
-                Toast.makeText(getContext(),"Well done! +10 TP",Toast.LENGTH_SHORT);
-                SavePreferences("TP",10);
-                Intent intent = new Intent(getActivity(),TaskActivity.class);
-                String card_id = String.valueOf(adapter.tasks.get(position).getTaskId());
-
-                Log.d(TAG, "onEditClicked: " + String.valueOf(card_id));
-                intent.putExtra("id",card_id);
-                startActivity(intent);
             }
         });
 
@@ -159,6 +160,7 @@ public class TaskFragment extends Fragment {
                 SavePreferences("id",sharedPreferences.getInt("id",1) + 1);
                 Log.d(TAG, "onNewClicked: " + String.valueOf(card_id));
                 intent.putExtra("id",card_id);
+                intent.putExtra("edit",true);
                 startActivity(intent);
             }
         });

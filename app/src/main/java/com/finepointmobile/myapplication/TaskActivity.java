@@ -66,6 +66,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         buttonCalendar = findViewById(R.id.buttonCalendar);
         textCalendar = findViewById(R.id.textCalendar);
         Intent intent = getIntent();
+        final boolean edit = intent.getBooleanExtra("edit",false);
         final int cur_id = Integer.parseInt(intent.getStringExtra("id"));
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
                 .fallbackToDestructiveMigration()
@@ -78,6 +79,13 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         Log.d("ID", String.valueOf(cur_id) + ' ');
         final List<Task> cur_task = db.taskDao().getTaskById(cur_id);
         Log.d("ID", "Size = " + String.valueOf(cur_task.size()));
+        if(!edit){
+            textShort.setEnabled(false);
+            textFull.setEnabled(false);
+            checkText.setEnabled(false);
+            buttonCheck.setEnabled(false);
+            buttonCalendar.setEnabled(false);
+        }
         if (cur_task.size() != 0) {
             textShort.setText(cur_task.get(0).shortText);
             textFull.setText(cur_task.get(0).longText);
@@ -135,11 +143,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         buttonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Check check : adapter.checks) {
-                    Log.d("myLog",check.getCheckText() + ' ' + String.valueOf(check.getIsComplete()));
-                    db.checkDao().updateCheck(cur_id, check.getCheckText(), check.getIsComplete());
-                }
-                Log.d("Button", "CLICKED " + String.valueOf(db.checkDao().getAll().size()));
+                checkText.setText("");
                 String checkName = String.valueOf(checkText.getText());
                 db.checkDao().insertAll(new Check(checkName,0,cur_id));
                 adapter = new CheckAdapter(db.checkDao().getChecksById(cur_id));

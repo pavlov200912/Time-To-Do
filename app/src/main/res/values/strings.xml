@@ -14,5 +14,5 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="accessibility_service_description">Get foreground activity information</string>
-
+    <integer name="com_vk_sdk_AppId">5338563</integer>
 </resources>

@@ -22,13 +22,21 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        Log.d("AmyLog", "onCreate: ");
         Button signIn = findViewById(R.id.signVK);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VKSdk.login(StartActivity.this, "friend", "wall");
-                String[] fingerprints = VKUtil.getCertificateFingerprint(StartActivity.this, StartActivity.this.getPackageName());
-                Log.d("FINGERPRINT : ", fingerprints[0]);
+                if(!VKSdk.isLoggedIn()) {
+                    VKSdk.login(StartActivity.this, "friend", "wall");
+                    String[] fingerprints = VKUtil.getCertificateFingerprint(StartActivity.this, StartActivity.this.getPackageName());
+                    Log.d("FINGERPRINT : ", fingerprints[0]);
+                }
+                else {
+                    Intent intent = new Intent(StartActivity.this,MainActivity.class);
+                    intent.putExtra("sign","true");
+                    startActivity(intent);
+                }
             }
         });
     }

@@ -34,6 +34,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiUser;
+import com.vk.sdk.api.model.VKList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +98,17 @@ public class AppFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_app, container, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        TextView name = view.findViewById(R.id.userName);
 
+        VKApi.users().get().executeWithListener(new VKRequest.VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                VKApiUser user = ((VKList<VKApiUser>)response.parsedModel).get(0);
+                Log.d(TAG, user.first_name + " " + user.last_name);
+                name.setText(user.first_name + " " + user.last_name);
+            }
+        });
+        //Log.d(TAG, "NAME : " + name.toString());
 //        new LongOperation().execute();
         FloatingActionButton btn_access = view.findViewById(R.id.buttonAccess);
         btn_access.setOnClickListener(new View.OnClickListener() {

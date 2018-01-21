@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="editTextFullH">50dp</dimen>
+    <dimen name="cardview_task">75dp</dimen>
+    <dimen name="textTimeSize">20dp</dimen>
+    <dimen name="textDateSize">40dp</dimen>
+    <dimen name="textMainSize">40dp</dimen>
+</resources>

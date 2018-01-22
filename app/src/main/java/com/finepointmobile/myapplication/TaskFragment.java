@@ -82,7 +82,7 @@ public class TaskFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        fab = view.findViewById(R.id.fab);
+        fab = view.findViewById(R.id.fabT);
         recyclerView = view.findViewById(R.id.recycler_view);
 
         db = Room.databaseBuilder(getContext(), AppDatabase.class, "production")

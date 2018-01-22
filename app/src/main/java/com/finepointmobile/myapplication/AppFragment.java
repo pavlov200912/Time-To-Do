@@ -45,6 +45,8 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKList;
+import com.vk.sdk.dialogs.VKShareDialog;
+import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,15 +61,6 @@ import at.grabner.circleprogress.CircleProgressView;
 import at.grabner.circleprogress.TextMode;
 import at.grabner.circleprogress.UnitPosition;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AppFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AppFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AppFragment extends Fragment {
     private static final String TAG = "myLog" ;
     CircleProgressView mCircleView;
@@ -85,8 +78,9 @@ public class AppFragment extends Fragment {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     SharedPreferences sharedPreferences;
-    TextView textView;
+    TextView userLevel;
     ImageView userImage;
+    ImageButton shareButton;
 
     public static AppFragment newInstance(String param1, String param2) {
         AppFragment fragment = new AppFragment();
@@ -109,15 +103,19 @@ public class AppFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_app, container, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         TextView name = view.findViewById(R.id.userName);
-
-        VKApi.users().get().executeWithListener(new VKRequest.VKRequestListener() {
-            @Override
-            public void onComplete(VKResponse response) {
-                VKApiUser user = ((VKList<VKApiUser>)response.parsedModel).get(0);
-                Log.d(TAG, user.first_name + " " + user.last_name);
-                name.setText(user.first_name + " " + user.last_name);
-            }
-        });
+        if(sharedPreferences.getString("skip","1").equals("1") || VKSdk.isLoggedIn()) {
+            VKApi.users().get().executeWithListener(new VKRequest.VKRequestListener() {
+                @Override
+                public void onComplete(VKResponse response) {
+                    VKApiUser user = ((VKList<VKApiUser>) response.parsedModel).get(0);
+                    Log.d(TAG, user.first_name + " " + user.last_name);
+                    name.setText(user.first_name + " " + user.last_name);
+                }
+            });
+        }
+        else{
+            name.setText(sharedPreferences.getString("skip","1"));
+        }
 
         VKParameters params = new VKParameters();
         params.put(VKApiConst.FIELDS, "photo_max_orig");
@@ -157,6 +155,9 @@ public class AppFragment extends Fragment {
         });
         //Log.d(TAG, "NAME : " + name.toString());
 //        new LongOperation().execute();
+
+
+        shareButton = view.findViewById(R.id.buttonShare);
         FloatingActionButton btn_access = view.findViewById(R.id.buttonAccess);
         btn_access.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,10 +190,32 @@ public class AppFragment extends Fragment {
             SavePreferences("TP",points%100);
             SavePreferences("level",points/100);
         }
+        userLevel = view.findViewById(R.id.userLevel);
+        userLevel.setText(String.valueOf(sharedPreferences.getInt("level",1)));
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VKShareDialogBuilder builder = new VKShareDialogBuilder();
+                builder.setText("ВПЕЧАТЛЯЮЩИЙ УСПЕХ ПО ЖИЗНИ!!! МОЙ УРОВЕНЬ ВЫРОС ДО " + userLevel.getText());
+                builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+                    @Override
+                    public void onVkShareComplete(int postId) {
+                        // recycle bitmap if need
+                    }
+                    @Override
+                    public void onVkShareCancel() {
+                        // recycle bitmap if need
+                    }
+                    @Override
+                    public void onVkShareError(VKError error) {
+                        // recycle bitmap if need
+                    }
+                });
+                builder.show(getFragmentManager(), "VK_SHARE_DIALOG");
+            }
+        });
         progressBar = view.findViewById(R.id.progressBar);
         progressBar.setProgress(sharedPreferences.getInt("TP",0));
-        textView = view.findViewById(R.id.userLevel);
-        textView.setText("Level:" + sharedPreferences.getInt("level",1));
         return view;
     }
 
@@ -224,16 +247,6 @@ public class AppFragment extends Fragment {
         edit.commit();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -288,7 +301,7 @@ public class AppFragment extends Fragment {
             SavePreferences("TP",points%100);
             SavePreferences("level",points/100);
         }
-        textView.setText("Level:" + sharedPreferences.getInt("level",1));
+        userLevel.setText("Level:" + sharedPreferences.getInt("level",1));
         progressBar.setProgress(sharedPreferences.getInt("TP",0));
 
     }

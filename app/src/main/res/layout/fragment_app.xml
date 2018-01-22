@@ -49,40 +49,54 @@
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="297dp"
-                android:layout_height="83dp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="105dp"
+                android:layout_marginTop="8dp"
                 CircleProgressView:layout_constraintEnd_toEndOf="parent"
-                CircleProgressView:layout_constraintHorizontal_bias="0.512"
                 CircleProgressView:layout_constraintStart_toStartOf="parent"
-                CircleProgressView:layout_constraintTop_toBottomOf="@+id/userLevel" />
+                CircleProgressView:layout_constraintTop_toBottomOf="@+id/userImage" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/buttonAccess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
                 android:clickable="true"
                 CircleProgressView:backgroundTint="@color/floatingCheck"
                 CircleProgressView:layout_constraintBottom_toBottomOf="parent"
-                CircleProgressView:srcCompat="@drawable/ic_add_white_24dp"
-                tools:layout_editor_absoluteX="8dp" />
+                CircleProgressView:layout_constraintStart_toStartOf="parent"
+                CircleProgressView:srcCompat="@drawable/ic_add_white_24dp" />
 
             <ImageView
                 android:id="@+id/userImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:src="@drawable/background_color_circle_selector"
-                CircleProgressView:layout_constraintBottom_toTopOf="@+id/progressBar"
                 CircleProgressView:layout_constraintEnd_toEndOf="parent"
                 CircleProgressView:layout_constraintStart_toStartOf="parent"
-                CircleProgressView:layout_constraintTop_toBottomOf="@+id/userLevel"
-                CircleProgressView:layout_constraintVertical_bias="0.0" />
+                CircleProgressView:layout_constraintTop_toBottomOf="@+id/userLevel" />
+
+            <ImageButton
+                android:id="@+id/buttonShare"
+                android:layout_width="51dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/circle"
+                CircleProgressView:layout_constraintBottom_toBottomOf="@+id/progressBar"
+                CircleProgressView:layout_constraintEnd_toEndOf="parent"
+                CircleProgressView:layout_constraintStart_toEndOf="@+id/progressBar"
+                CircleProgressView:layout_constraintTop_toBottomOf="@+id/userImage" />
+
         </android.support.constraint.ConstraintLayout>
 
         <android.support.v7.widget.RecyclerView

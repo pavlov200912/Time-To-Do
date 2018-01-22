@@ -188,7 +188,7 @@ public class AppFragment extends Fragment {
         int points = sharedPreferences.getInt("TP",0);
         if(points > 100){
             SavePreferences("TP",points%100);
-            SavePreferences("level",points/100);
+            SavePreferences("level",sharedPreferences.getInt("level",1) + points/100);
         }
         userLevel = view.findViewById(R.id.userLevel);
         userLevel.setText(String.valueOf(sharedPreferences.getInt("level",1)));
@@ -215,6 +215,7 @@ public class AppFragment extends Fragment {
             }
         });
         progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setMax(100);
         progressBar.setProgress(sharedPreferences.getInt("TP",0));
         return view;
     }
@@ -232,7 +233,6 @@ public class AppFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "App", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -297,9 +297,10 @@ public class AppFragment extends Fragment {
             recyclerView.setAdapter(adapter);
         }
         int points = sharedPreferences.getInt("TP",0);
+        Log.d("levelTEST", "onResume: " + points + "level " + sharedPreferences.getInt("level",1));
         if(points > 100){
             SavePreferences("TP",points%100);
-            SavePreferences("level",points/100);
+            SavePreferences("level",sharedPreferences.getInt("level",1) + points/100);
         }
         userLevel.setText("Level:" + sharedPreferences.getInt("level",1));
         progressBar.setProgress(sharedPreferences.getInt("TP",0));

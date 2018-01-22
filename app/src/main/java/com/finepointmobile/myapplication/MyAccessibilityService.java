@@ -112,7 +112,7 @@ public class MyAccessibilityService extends AccessibilityService {
             if(!date.equals(sharedPreferences.getString("ServiceStart","NONE"))){
                 reStart();
                 if(sharedPreferences.getString("good","yes").equals("yes")){
-                    SavePreferencesInt("TP",10);
+                    SavePreferencesInt("TP",sharedPreferences.getInt("TP",0) + 50);
                 }
                 SavePreferences("ServiceStart", date);
                 SavePreferences("good","yes");

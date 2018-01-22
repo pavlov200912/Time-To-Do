@@ -124,7 +124,7 @@ public class TaskFragment extends Fragment {
             @Override
             public void onLeftClicked(int position) {
                 Toast.makeText(getActivity(),"Well done! +10 TP",Toast.LENGTH_SHORT);
-                SavePreferences("TP",50);
+                SavePreferences("TP",sharedPreferences.getInt("TP",0) + 20);
                 Log.d(TAG, "onDeleteClicked from ADAPTER id_deleted:" + adapter.tasks.get(position).getTaskId() + " text deleted" + adapter.tasks.get(position).getShortText() );
                 db.taskDao().deleteTaskById(adapter.tasks.get(position).getTaskId());
                 db.checkDao().deleteById(adapter.tasks.get(position).getTaskId());
@@ -185,7 +185,6 @@ public class TaskFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Task", Toast.LENGTH_SHORT).show();
         }
     }
 

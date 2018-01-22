@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <service
             android:name=".MyAccessibilityService"
-            android:label="WindowChangeDetectingService"
+            android:label="TimeToDo"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />

@@ -34,12 +34,21 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKApiConst;
+import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +86,7 @@ public class AppFragment extends Fragment {
     ProgressBar progressBar;
     SharedPreferences sharedPreferences;
     TextView textView;
+    ImageView userImage;
 
     public static AppFragment newInstance(String param1, String param2) {
         AppFragment fragment = new AppFragment();
@@ -106,6 +116,43 @@ public class AppFragment extends Fragment {
                 VKApiUser user = ((VKList<VKApiUser>)response.parsedModel).get(0);
                 Log.d(TAG, user.first_name + " " + user.last_name);
                 name.setText(user.first_name + " " + user.last_name);
+            }
+        });
+
+        VKParameters params = new VKParameters();
+        params.put(VKApiConst.FIELDS, "photo_max_orig");
+
+        VKRequest request = new VKRequest("users.get",params);
+        request.executeWithListener(new VKRequest.VKRequestListener() {
+
+            @Override
+            public void onComplete(VKResponse response) {
+                super.onComplete(response);
+                JSONArray resp = null;
+                try {
+                    resp = response.json.getJSONArray("response");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONObject user = null;
+                try {
+                    user = resp.getJSONObject(0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    String photo_max_orig_url = user.getString("photo_max_orig");
+                    userImage = view.findViewById(R.id.userImage);
+                    Glide.with(view).load(photo_max_orig_url).apply(RequestOptions.circleCropTransform()).into(userImage);
+//                    Toast.makeText(getContext(), photo_max_orig_url, Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(VKError error) {
+                super.onError(error);
             }
         });
         //Log.d(TAG, "NAME : " + name.toString());

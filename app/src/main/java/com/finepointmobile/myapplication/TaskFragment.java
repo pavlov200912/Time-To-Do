@@ -91,7 +91,7 @@ public class TaskFragment extends Fragment {
                 .build();
         Log.d(TAG, "onCreate:");
         for (Task task : db.taskDao().getAllSorted()) {
-            Log.d(TAG,"id:" + task.taskId + " text:" + task.shortText + " date:" + task.expireDate);
+            Log.d(TAG,"id:" + task.taskId + " text:" + task.shortText + " date:" + task.dateText);
         }
         adapter = new TaskAdapter(db.taskDao().getAllSorted());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -113,8 +113,6 @@ public class TaskFragment extends Fragment {
             @Override
             public void onRightClicked(int position) {
                 //TODO remove from db
-                Toast.makeText(getActivity(),"Well done! +10 TP",Toast.LENGTH_SHORT);
-                SavePreferences("TP",10);
                 Intent intent = new Intent(getActivity(),TaskActivity.class);
                 String card_id = String.valueOf(adapter.tasks.get(position).getTaskId());
                 intent.putExtra("edit",true);
@@ -125,7 +123,8 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void onLeftClicked(int position) {
-                Toast.makeText(getActivity(),"Editing",Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(),"Well done! +10 TP",Toast.LENGTH_SHORT);
+                SavePreferences("TP",50);
                 Log.d(TAG, "onDeleteClicked from ADAPTER id_deleted:" + adapter.tasks.get(position).getTaskId() + " text deleted" + adapter.tasks.get(position).getShortText() );
                 db.taskDao().deleteTaskById(adapter.tasks.get(position).getTaskId());
                 db.checkDao().deleteById(adapter.tasks.get(position).getTaskId());

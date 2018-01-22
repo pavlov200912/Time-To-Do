@@ -31,6 +31,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
@@ -48,6 +49,8 @@ dependencies {
     compile 'com.annimon:stream:1.1.7'
     compile 'com.vk:androidsdk:1.6.5'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:3.0.1'
+    //annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     compile project(':CircleProgressView')
     testCompile 'junit:junit:4.12'
     compile project(path: ':library')

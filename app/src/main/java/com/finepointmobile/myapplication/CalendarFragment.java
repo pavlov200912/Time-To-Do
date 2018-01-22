@@ -1,6 +1,7 @@
 package com.finepointmobile.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,12 +9,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class CalendarFragment extends Fragment {
 
@@ -27,8 +33,8 @@ public class CalendarFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
-
+    private CalendarAdapter adapter;
+    private ArrayList<String> mDate = new ArrayList<>();
     public CalendarFragment() {
         // Required empty public constructor
     }
@@ -61,13 +67,23 @@ public class CalendarFragment extends Fragment {
         SnapHelper snapHelper = new PagerSnapHelper();
         recyclerView.setLayoutManager(layoutManager);
         snapHelper.attachToRecyclerView(recyclerView);
-        ArrayList<String> mData = new ArrayList<>();
-        for(int i=0;i < 10; i++){
-            mData.add("Value " + i);
-        }
-        adapter = new CalendarAdapter(mData);
+        DateFormat df = new SimpleDateFormat("MMM", Locale.ENGLISH);
+        String month = df.format(Calendar.getInstance().getTime());
+        DateFormat dd = new SimpleDateFormat("d",Locale.CANADA);
+        String day = dd.format(Calendar.getInstance().getTime());
+        mDate.add(month + ' ' + day);
+        setMonth(month,Integer.parseInt(day));
+        adapter = new CalendarAdapter(mDate,getActivity());
         recyclerView.setAdapter(adapter);
-
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position1) {
+                        //recyclerView.getChildAdapterPosition()
+                        Log.d("ROMANPETUX","pos" +  String.valueOf(position1) + adapter.mData.get(position1));
+                    }
+                })
+        );
         return view;
     }
 
@@ -96,5 +112,11 @@ public class CalendarFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public void setMonth(String mmm,int day){
+        Calendar calendar = Calendar.getInstance();
+        for(int i = day + 1; i <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
+            mDate.add(mmm + ' ' + String.valueOf(i));
+        }
     }
 }

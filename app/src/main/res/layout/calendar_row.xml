@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
+        android:id="@+id/card_viewC"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="12dp"
@@ -18,11 +18,19 @@
         card_view:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:text="Date"
             android:id="@+id/textC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_taskC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
     </android.support.v7.widget.CardView>
 
 

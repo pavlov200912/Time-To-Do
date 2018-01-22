@@ -29,6 +29,9 @@ public interface TaskDao {
     @Query("SELECT * FROM Task ORDER BY expire_date")
     List<Task> getAllSorted();
 
+    @Query("SELECT * FROM Task WHERE substr(date_text,1,6) = :date ORDER BY expire_date")
+    List<Task> getTaskByDate(String date);
+
     @Query("SELECT MAX(id) FROM Task")
     int getMaxId();
 

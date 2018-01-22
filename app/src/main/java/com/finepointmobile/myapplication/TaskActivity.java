@@ -143,12 +143,12 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         buttonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkText.setText("");
                 String checkName = String.valueOf(checkText.getText());
                 db.checkDao().insertAll(new Check(checkName,0,cur_id));
                 adapter = new CheckAdapter(db.checkDao().getChecksById(cur_id));
                 recyclerView.setLayoutManager(new LinearLayoutManager(TaskActivity.this));
                 recyclerView.setAdapter(adapter);
+               // checkText.setText("");
             }
         });
         Calendar min = Calendar.getInstance();

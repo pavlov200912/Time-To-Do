@@ -44,7 +44,8 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
     EditText textFull;
     EditText checkText;
     ImageButton buttonCalendar;
-    FloatingActionButton buttonSave, buttonCheck;
+    FloatingActionButton buttonCheck;
+    ImageButton buttonEdit, buttonSave;
     private int mYear, mMonth, mDay, mHour, mMinute;
     RecyclerView recyclerView;
     CheckAdapter adapter;
@@ -64,6 +65,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         checkText = findViewById(R.id.checkText);
         buttonSave = findViewById(R.id.buttonSave);
         buttonCalendar = findViewById(R.id.buttonCalendar);
+        buttonEdit = findViewById(R.id.buttonEdit);
         textCalendar = findViewById(R.id.textCalendar);
         Intent intent = getIntent();
         final boolean edit = intent.getBooleanExtra("edit",false);
@@ -135,6 +137,17 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                     }
                     startActivity(new Intent(TaskActivity.this, MainActivity.class));
                 }
+            }
+        });
+        buttonEdit.setImageResource(R.drawable.ic_edit);
+        buttonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textShort.setEnabled(true);
+                textFull.setEnabled(true);
+                checkText.setEnabled(true);
+                buttonCheck.setEnabled(true);
+                buttonCalendar.setEnabled(true);
             }
         });
         /**
@@ -217,8 +230,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                                           int minute) {
                         expireTimeInMillisecond = calendars.get(0).getTimeInMillis() + hourOfDay * 3600000 + minute * 60000;
                         String date = calendars.get(0).getTime().toString();
-                        expireTime = date.substring(4, 11) + date.substring(date.length() - 4, date.length())
-                                + ' ' + parseDate(hourOfDay)
+                        expireTime = date.substring(4, 11) + ' ' + parseDate(hourOfDay)
                                 + ':' + parseDate(minute);
                        textCalendar.setText(expireTime);
                     }

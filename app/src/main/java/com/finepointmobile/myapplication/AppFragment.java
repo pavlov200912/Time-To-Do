@@ -1,5 +1,6 @@
 package com.finepointmobile.myapplication;
 
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.arch.persistence.room.Room;
@@ -21,6 +22,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -308,14 +311,17 @@ public class AppFragment extends Fragment {
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getContext().
-                getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.
-                getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
+        AccessibilityManager am = (AccessibilityManager) getActivity().getSystemService(Context.ACCESSIBILITY_SERVICE);
+
+        List<AccessibilityServiceInfo> runningServices = am
+                .getEnabledAccessibilityServiceList(AccessibilityEvent.TYPES_ALL_MASK);
+        for (AccessibilityServiceInfo service : runningServices) {
+            //Log.d("serviceID", "isMyServiceRunning: "  + service.getId());
+            if (service.getId().equals("com.finepointmobile.myapplication/.MyAccessibilityService")) {
                 return true;
             }
         }
+
         return false;
     }
     private List<ApplicationInfo> checkForLaunchIntent(List<ApplicationInfo> list) {

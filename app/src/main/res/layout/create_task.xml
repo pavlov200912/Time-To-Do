@@ -15,188 +15,198 @@
         android:layout_height="match_parent"> -->
 
 
-            <android.support.constraint.ConstraintLayout
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:visibility="visible"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/buttonSave"
-                    android:layout_width="48dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="right"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp"
-                    android:tint="@android:color/white"
-                    app:backgroundTint="@color/colorPrimary"
-                    app:layout_anchor="@+id/appBarLayout2"
-                    app:layout_anchorGravity="right|center"
-                    app:layout_constraintBottom_toBottomOf="@+id/appBarLayout2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_checkmark_holo_light" />
-
-                <android.support.design.widget.AppBarLayout
-                    android:id="@+id/appBarLayout2"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/AppTheme.AppBarOverlay">
-                    <android.support.v7.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:background="@color/colorPrimary"
-                        android:visibility="visible"
-                        app:popupTheme="@style/AppTheme.PopupOverlay" />
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/buttonEdit"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@null"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_edit" />
+
+                    <ImageButton
+                        android:id="@+id/buttonSave"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@null"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_save" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.Toolbar>
 
 
-                </android.support.design.widget.AppBarLayout>
-            </android.support.constraint.ConstraintLayout>
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        </android.support.design.widget.AppBarLayout>
+    </android.support.constraint.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/textShort"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="@string/textShortTask"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:id="@+id/buttonCalendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/google_calendar"
-                    app:layout_constraintBottom_toBottomOf="@+id/editTextShort"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.584"
-                    app:layout_constraintStart_toEndOf="@+id/editTextShort"
-                    app:layout_constraintTop_toTopOf="@+id/editTextShort"
-                    app:layout_constraintVertical_bias="0.571"></ImageButton>
+        <TextView
+            android:id="@+id/textShort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/textShortTask"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/textSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/editTextShort"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:hint="Type here"
-                    android:inputType="textPersonName"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textShort" />
+        <ImageButton
+            android:id="@+id/buttonCalendar"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/google_calendar"
+            app:layout_constraintBottom_toBottomOf="@+id/editTextShort"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.584"
+            app:layout_constraintStart_toEndOf="@+id/editTextShort"
+            app:layout_constraintTop_toTopOf="@+id/editTextShort"
+            app:layout_constraintVertical_bias="0.571"></ImageButton>
 
-                <TextView
-                    android:id="@+id/textFull"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="@string/textFullTask"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextShort" />
+        <EditText
+            android:id="@+id/editTextShort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Type here"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textShort" />
 
-                <EditText
-                    android:id="@+id/editTextFull"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/editTextFullH"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:hint="@string/hint"
-                    android:inputType="textPersonName"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textFull" />
+        <TextView
+            android:id="@+id/textFull"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/textFullTask"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/textSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextShort" />
 
-                <TextView
-                    android:id="@+id/textCalendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:elevation="0dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/colorPrimary"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toEndOf="@+id/textShort"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/editTextFull"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/hint"
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:minLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textFull" />
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:elevation="0dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/colorPrimary"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@+id/textShort"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <EditText
+            android:id="@+id/checkText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/checkStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFull" />
 
-                <EditText
-                    android:id="@+id/checkText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:hint="@string/checkStart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/checkButton"
+            android:layout_width="259dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="100dp"
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/floatingCheck"
+            app:layout_constraintBottom_toBottomOf="@+id/checkText"
+            app:layout_constraintStart_toEndOf="@+id/checkText"
+            app:layout_constraintTop_toTopOf="@+id/checkText"
+            app:srcCompat="@android:drawable/ic_input_add" />
+    </android.support.constraint.ConstraintLayout>
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/checkButton"
-                    android:layout_width="259dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:paddingLeft="100dp"
-                    android:tint="@android:color/white"
-                    app:backgroundTint="@color/floatingCheck"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/checkText"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@android:drawable/ic_input_add" />
-            </android.support.constraint.ConstraintLayout>
+     <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.965"
+        tools:layout_editor_absoluteX="0dp">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.965"
-                tools:layout_editor_absoluteX="0dp">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/checkText"
-                    tools:layout_editor_absoluteX="8dp" />
-            </FrameLayout>
-
-
-
-
-
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkText"
+            tools:layout_editor_absoluteX="8dp" />
+    </FrameLayout>
 
 
     <!--</android.support.constraint.ConstraintLayout> -->

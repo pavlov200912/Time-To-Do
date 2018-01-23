@@ -12,7 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,21 +77,14 @@ public class TaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_task, container, false);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         fab = view.findViewById(R.id.fabT);
-        recyclerView = view.findViewById(R.id.recycler_view);
-
+        recyclerView = view.findViewById(R.id.recycler_task);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         db = Room.databaseBuilder(getContext(), AppDatabase.class, "production")
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .build();
-        Log.d(TAG, "onCreate:");
-        for (Task task : db.taskDao().getAllSorted()) {
-            Log.d(TAG,"id:" + task.taskId + " text:" + task.shortText + " date:" + task.dateText);
-        }
         adapter = new TaskAdapter(db.taskDao().getAllSorted());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

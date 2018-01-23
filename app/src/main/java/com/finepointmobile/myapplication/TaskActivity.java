@@ -3,6 +3,7 @@ package com.finepointmobile.myapplication;
 import android.app.TimePickerDialog;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -148,6 +149,9 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
                 checkText.setEnabled(true);
                 buttonCheck.setEnabled(true);
                 buttonCalendar.setEnabled(true);
+                textShort.setTextColor(Color.BLACK);
+                textFull.setTextColor(Color.BLACK);
+                checkText.setTextColor(Color.BLACK);
             }
         });
         /**

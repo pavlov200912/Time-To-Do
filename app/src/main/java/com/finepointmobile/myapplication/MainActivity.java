@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("TimeToDo");
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
         navigation.setSelectedItemId(R.id.navigation_task);

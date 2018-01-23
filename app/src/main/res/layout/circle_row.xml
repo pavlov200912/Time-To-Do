@@ -47,34 +47,31 @@
 
             <ImageView
                 android:id="@+id/imageApp"
-                android:layout_width="35dp"
-                android:layout_height="37dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:src="@mipmap/ic_launcher"
-                CircleProgressView:layout_anchor="@+id/circleView"
-                CircleProgressView:layout_anchorGravity="bottom|center"
-                CircleProgressView:layout_constraintBottom_toBottomOf="@+id/circleView"
-                CircleProgressView:layout_constraintEnd_toEndOf="@+id/circleView"
-                CircleProgressView:layout_constraintStart_toStartOf="parent"
-                CircleProgressView:layout_constraintTop_toTopOf="@+id/circleView" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/circleView"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
                 android:id="@+id/timeApp"
-                android:layout_width="210dp"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="29dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintBottom_toBottomOf="@+id/imageApp"
+                card_view:layout_constraintEnd_toStartOf="@+id/imageApp"
+                card_view:layout_constraintHorizontal_bias="1.0"
                 card_view:layout_constraintStart_toEndOf="@+id/circleView"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintTop_toTopOf="@+id/imageApp" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

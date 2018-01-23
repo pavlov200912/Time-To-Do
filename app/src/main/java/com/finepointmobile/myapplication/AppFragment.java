@@ -12,8 +12,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +38,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -66,7 +69,6 @@ import at.grabner.circleprogress.UnitPosition;
 
 public class AppFragment extends Fragment {
     private static final String TAG = "myLog" ;
-    CircleProgressView mCircleView;
     ApplicationInfo app;
     private PackageManager packageManager = null;
     private List<ApplicationInfo> applist = null;
@@ -104,6 +106,7 @@ public class AppFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_app, container, false);
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         TextView name = view.findViewById(R.id.userName);
         if(sharedPreferences.getString("skip","1").equals("1") || VKSdk.isLoggedIn()) {
@@ -167,7 +170,7 @@ public class AppFragment extends Fragment {
             public void onClick(View v){
 
                 if(!isMyServiceRunning(MyAccessibilityService.class)){
-                    Intent intent = new Intent(android.provider.Settings.
+                    Intent intent = new Intent(Settings.
                             ACTION_ACCESSIBILITY_SETTINGS);
                     startActivity(intent);
                 }
@@ -259,33 +262,7 @@ public class AppFragment extends Fragment {
         super.onStart();
     }
 
-    private class LongOperation extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
 
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mCircleView.setValue(0);
-                    mCircleView.spin();
-                }
-            });
-
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            mCircleView.setValueAnimated(42);
-        }
-    }
     @Override
     public void onResume() {
         super.onResume();

@@ -155,6 +155,8 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:elevation="0dp"
+            android:text=""
+            android:textSize="@dimen/textSize"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/colorPrimary"
             android:visibility="visible"
@@ -181,7 +183,7 @@
             android:paddingLeft="100dp"
             android:tint="@android:color/white"
             app:backgroundTint="@color/floatingCheck"
-            app:layout_constraintBottom_toBottomOf="@+id/checkText"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/checkText"
             app:layout_constraintTop_toTopOf="@+id/checkText"
             app:srcCompat="@android:drawable/ic_input_add" />
@@ -190,8 +192,6 @@
      <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.965"

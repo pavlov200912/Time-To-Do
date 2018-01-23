@@ -63,17 +63,17 @@ class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder> {
         holder.mCircleView.setShowTextWhileSpinning(false); // Show/hide text in spinning mode
         //TODO CALC TEXT COLOR()
         holder.mCircleView.setClickable(false);
-        holder.mCircleView.setTextMode(TextMode.TEXT);
+        holder.mCircleView.setTextMode(TextMode.VALUE);
         holder.mCircleView.setUnitVisible(false);
-        holder.mCircleView.setText("");
-        //holder.mCircleView.setBarColor(Color.parseColor("#4fc3f7"), Color.parseColor("#0288D1"), Color.parseColor("#26C6DA"));
-        holder.mCircleView.setBarColor(Color.GREEN);
+        holder.mCircleView.setBarColor(Color.parseColor("#4fc3f7"), Color.parseColor("#0288D1"), Color.parseColor("#26C6DA"));
+        //holder.mCircleView.setBarColor(Color.GREEN);
         holder.mCircleView.setSeekModeEnabled(false);
-
+        holder.mCircleView.setRimWidth(10);
+        holder.mCircleView.setBarWidth(10);
         int minutes = (int)(circles.get(position).getTime() / 60000);
         int limitMunutes = (int)(circles.get(position).getLimitTime()/60000);
         Log.d("myLog", "onBindViewHolder: " + minutes + ' ' + limitMunutes);
-        holder.timeApp.setText("Oсталось " + Math.max(limitMunutes - minutes,0) + " мин. из " + limitMunutes);
+        holder.timeApp.setText("Oсталось " + Math.max(limitMunutes - minutes,0) + '/' + limitMunutes + " минут");
         double procent = Math.min(1, (double)minutes/(double)limitMunutes);
         Log.d("myLog", "onBindViewHolder: " + procent);
         holder.mCircleView.setValue((float) (100*(1 - procent)));

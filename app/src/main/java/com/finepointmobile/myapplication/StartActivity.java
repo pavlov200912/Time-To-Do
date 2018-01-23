@@ -57,7 +57,7 @@ public class StartActivity extends AppCompatActivity {
         });
         Toolbar mToolbar = findViewById(R.id.toolbarStart);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Время делать");
+        getSupportActionBar().setTitle("TimeToDo");
         EditText editText = findViewById(R.id.editName);
         Button buttonSkip = findViewById(R.id.buttonSkip);
         buttonSkip.setOnClickListener(new View.OnClickListener() {

@@ -29,6 +29,7 @@ import com.vk.sdk.util.VKUtil;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+    SharedPreferences sharedPreferences;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,17 +55,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("TimeToDo");
+        if(sharedPreferences.getString("start","task").equals("app")){
+            navigation.setSelectedItemId(R.id.navigation_task);
+        }
+        else{
+            SavePreferences("start","task");
+            navigation.setSelectedItemId(R.id.navigation_app);
+        }
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemIconTintList(null);
         navigation.setSelectedItemId(R.id.navigation_task);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container,new TaskFragment()).commit();
+    }
+    private void SavePreferences(String key, String value) {
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString(key, value);
+        edit.commit();
     }
 
 

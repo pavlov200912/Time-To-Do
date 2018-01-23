@@ -104,29 +104,20 @@ public class TaskFragment extends Fragment {
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
-                //TODO remove from db
-                Intent intent = new Intent(getActivity(),TaskActivity.class);
-                String card_id = String.valueOf(adapter.tasks.get(position).getTaskId());
-                intent.putExtra("edit",true);
-                Log.d(TAG, "onEditClicked: " + String.valueOf(card_id));
-                intent.putExtra("id",card_id);
-                startActivity(intent);
+                db.taskDao().deleteTaskById(adapter.tasks.get(position).getTaskId());
+                db.checkDao().deleteById(adapter.tasks.get(position).getTaskId());
+                adapter.tasks.remove(position);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position, adapter.getItemCount());
             }
 
             @Override
             public void onLeftClicked(int position) {
-                Toast.makeText(getActivity(),"Well done! +10 TP",Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(),"Well done! +10 TP",Toast.LENGTH_SHORT).show();
                 SavePreferences("TP",sharedPreferences.getInt("TP",0) + 20);
-                Log.d(TAG, "onDeleteClicked from ADAPTER id_deleted:" + adapter.tasks.get(position).getTaskId() + " text deleted" + adapter.tasks.get(position).getShortText() );
                 db.taskDao().deleteTaskById(adapter.tasks.get(position).getTaskId());
                 db.checkDao().deleteById(adapter.tasks.get(position).getTaskId());
                 adapter.tasks.remove(position);
-                //db.taskDao().reindexTasks(position + 1);
-                //db.checkDao().reindexChecks(position + 1);
-                Log.d(TAG,"After Deleting:" + position);
-                for (Task task : db.taskDao().getAllSorted()) {
-                    Log.d(TAG,"id:" + task.taskId + " text:" + task.shortText + " date:" + String.valueOf(task.expireDate));
-                }
                 adapter.notifyItemRemoved(position);
                 adapter.notifyItemRangeChanged(position, adapter.getItemCount());
             }

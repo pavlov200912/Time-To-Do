@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 
 
 
-@Database(entities = { Task.class, Check.class , Circles.class}, version = 38)
+@Database(entities = { Task.class, Check.class , Circles.class}, version = 40)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TaskDao taskDao();
     public abstract CheckDao checkDao();

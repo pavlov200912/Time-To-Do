@@ -2,6 +2,7 @@ package com.finepointmobile.myapplication;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.arch.persistence.room.Room;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -16,9 +17,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -50,9 +53,25 @@ public class AllAppsActivity extends ListActivity {
         ApplicationInfo app = applist.get(position);
         try {
             SavePreferences("Application",app.packageName);
-            db.circlesDao().insertAll(new Circles(app.packageName,0,3600000));
-            Intent intent = new Intent(AllAppsActivity.this,MainActivity.class);
-            startActivity(intent);
+            final Calendar c = Calendar.getInstance();
+            int  mHour = c.get(Calendar.HOUR_OF_DAY);
+            int mMinute = c.get(Calendar.MINUTE);
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+
+                            db.circlesDao().insertAll(new Circles(app.packageName,0,hourOfDay*1000*60*60 + minute*1000*60));
+                            Intent intent = new Intent(AllAppsActivity.this,MainActivity.class);
+                            SavePreferences("start","app");
+                            startActivity(intent);
+                        }
+                    }, mHour, mMinute, true);
+            timePickerDialog.show();
+
+
         } catch (ActivityNotFoundException e) {
             Toast.makeText(AllAppsActivity.this, e.getMessage(),
                     Toast.LENGTH_LONG).show();

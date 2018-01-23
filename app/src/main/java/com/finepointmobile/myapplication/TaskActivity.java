@@ -52,7 +52,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
     CheckAdapter adapter;
     TextView textCalendar;
 
-    String expireTime;
+    String expireTime = "";
     long expireTimeInMillisecond;
 
     @Override
@@ -191,8 +191,7 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
     }
 
     boolean checkIfEmpty(String short_text, String long_text) {
-        return false;
-        //return short_text.isEmpty() || long_text.isEmpty();
+        return short_text.isEmpty() || long_text.isEmpty();
     }
     private List<Calendar> getDisabledDays() {
         /*Calendar firstDisabled = DateUtils.getCalendar();
@@ -247,4 +246,5 @@ public class TaskActivity extends AppCompatActivity implements OnSelectDateListe
         }
         return String.valueOf(date);
     }
+
 }

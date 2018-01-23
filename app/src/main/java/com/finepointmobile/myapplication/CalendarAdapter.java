@@ -4,6 +4,8 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,9 +50,11 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textView.setText(mData.get(position));
+        Typeface type = ResourcesCompat.getFont(context, R.font.idinaxx);
+        holder.textMon.setText(mData.get(position).substring(0,4));
+        holder.textView.setText(mData.get(position).substring(mData.get(position).length() - 2,mData.get(position).length()));
         holder.cardView.setCardBackgroundColor(Color.parseColor(mColors[position % mColors.length]));
-        TaskAdapter adapter = new TaskAdapter(db.taskDao().getTaskByDate(mData.get(position)));
+        TaskAdapter adapter = new TaskAdapter(db.taskDao().getTaskByDate(mData.get(position)) , false);
         //Log.d("ROMAN", "onBindViewHolder: " + position + "date" + mData.get(position) + " db.size()" + db.taskDao().getTaskByDate(mData.get(position)).size());
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.recyclerView.setAdapter(adapter);
@@ -78,12 +82,13 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView textView;
+        TextView textView , textMon;
         RecyclerView recyclerView;
         CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textC);
+            textView = itemView.findViewById(R.id.integer);
+            textMon = itemView.findViewById(R.id.month);
             recyclerView = itemView.findViewById(R.id.recycler_taskC);
             cardView = itemView.findViewById(R.id.card_viewC);
         }

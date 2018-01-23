@@ -26,7 +26,7 @@ public class MyAccessibilityService extends AccessibilityService {
     private static String oldApp = "com.android.settings";
     private static String newApp = "com.android.calendar";
     private long time = 0;
-    private final String TAG = "AmyLog";
+    private final String TAG = "AmyLog1";
     SharedPreferences sharedPreferences;
     AppDatabase db;
     @Override
@@ -40,9 +40,10 @@ public class MyAccessibilityService extends AccessibilityService {
         Log.d(TAG,"Size is:" +  String.valueOf(db.circlesDao().getCirclesByName(newApp).size()));
         if(db.circlesDao().getCirclesByName(newApp).size() > 0) {
             if (System.currentTimeMillis() - time > db.circlesDao().getCirclesByName(newApp).get(0).getLimitTime()
-                    && sharedPreferences.getString(oldApp + "good", "yes").equals("yes")) {
+                    && sharedPreferences.getString(newApp + "good", "yes").equals("yes")) {
                 //TODO Push
-                SavePreferences(oldApp + "good", "no");
+                Log.d(TAG, "");
+                SavePreferences(newApp + "good", "no");
                 SavePreferences("good", "no");
                 if (db.taskDao().getAllSorted().size() > 0) {
                     push(db.taskDao().getAllSorted().get(0).shortText);

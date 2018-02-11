@@ -2,6 +2,7 @@ package com.finepointmobile.myapplication;
 
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -25,6 +26,9 @@ public interface CheckDao {
 
     @Query("DELETE FROM checks WHERE task_id = :id")
     void deleteById(int id);
+
+    @Delete
+    void deleteCheck(Check check);
 
     @Insert
     void insertAll(Check... checks);

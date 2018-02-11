@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.vk:androidsdk-1.6.5">
+    <CLASSES>
+      <root url="jar://C:/Users/Public/.gradle/caches/transforms-1/files-1.1/androidsdk-1.6.5.aar/90371147cca8bb97291fcfb5661b2679/jars/classes.jar!/" />
+      <root url="file://C:/Users/Public/.gradle/caches/transforms-1/files-1.1/androidsdk-1.6.5.aar/90371147cca8bb97291fcfb5661b2679/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://C:/Users/Public/.gradle/caches/modules-2/files-2.1/com.vk/androidsdk/1.6.5/6681be05c30893b36d352a3d21988a5671f8a58b/androidsdk-1.6.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

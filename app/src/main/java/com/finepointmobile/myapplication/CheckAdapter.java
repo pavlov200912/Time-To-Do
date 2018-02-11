@@ -38,9 +38,15 @@ class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d("Checkbox", "clicked");
-                checks.get(position).setIsComplete(checks.get(position).getIsComplete() ^ 1);
+                if(checks.size() > position)
+                    checks.get(position).setIsComplete(checks.get(position).getIsComplete() ^ 1);
             }
         });
+    }
+    public void removeItem(int position) {
+        checks.remove(position);
+
+        notifyItemRemoved(position);
     }
 
     @Override
@@ -55,7 +61,8 @@ class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             this.setIsRecyclable(false);
-            checkBox = itemView.findViewById(R.id.tv_recycler_check);
+            checkBox = itemView.findViewById(R.id.rowName);
         }
     }
 }
+

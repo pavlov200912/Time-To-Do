@@ -1,25 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.finepointmobile.myapplication">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.finepointmobile.myapplication">
+
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".myApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name="com.finepointmobile.myapplication.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+        <service
+            android:name=".MyAccessibilityService"
+            android:label="TimeToDo"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/windowchangedetectingservice" />
+        </service>
+
+        <uses-permission
+            android:name="android.permission.PACKAGE_USAGE_STATS"
+            tools:ignore="ProtectedPermissions,WrongManifestParent" />
+
+        <activity
+            android:name=".StartActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.finepointmobile.myapplication.TaskActivity"/>
+        <activity android:name=".AllAppsActivity" />
+        <activity android:name=".TaskActivity" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
